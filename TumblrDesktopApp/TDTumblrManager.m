@@ -108,47 +108,10 @@ static TDTumblrManager* sharedTDTumblrManager = nil;
 }
 
 
-- (void)request
-{
-//    JXHTTPOperation *operation = [client_ blogInfoRequest:@"goraku-club"];
-//    NSLog(@"%@",operation.username);
-//    
-//    [[TMAPIClient sharedInstance] dashboard:@{@"type": @"photo",
-//                                              @"limit" : @"20",
-//                                              @"offset" : @"0"}
-//                                   callback:^(id results, NSError *error) {
-//                                       if (!error) {
-//                                           NSLog(@"results: %@", [results description]);
-//                                           
-//                                           NSArray *posts = results[@"posts"];
-//                                           NSLog(@"posts -> %@",posts);
-//                                       }
-//                                       else{
-//                                           NSLog(@"%@",error);
-//                                       }
-//                                   }];
-
-    [client_ posts:@"goraku-club"
-              type:@"photo"
-        parameters:@{@"limit": @"50"}
-          callback:^(id results, NSError *error) {
-              if (!error) {
-                  NSLog(@"results: %@", [results description]);
-                  
-                  NSArray *posts = results[@"posts"];
-                  NSLog(@"count -> %lu",(unsigned long)[posts count]);
-                  NSLog(@"posts -> %@",posts);
-              }
-              else{
-                  NSLog(@"%@",error);
-              }
-          }];
-}
-
 - (void)requestWithOffset:(NSString *)offset
                  callback:(void (^)(id response, bool succeeded))callback
 {
-    [client_ posts:@"goraku-club"
+    [client_ posts:BLOG_NAME
               type:@"photo"
         parameters:@{@"offset": offset,
                      @"limit": @"50",}

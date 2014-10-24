@@ -58,7 +58,7 @@
 
 - (void)initTimer
 {
-    changeImageTimer_ = [NSTimer scheduledTimerWithTimeInterval:10.0f
+    changeImageTimer_ = [NSTimer scheduledTimerWithTimeInterval:20.0f
                                                          target:self
                                                        selector:NSSelectorFromString(@"changeImage")
                                                        userInfo:nil

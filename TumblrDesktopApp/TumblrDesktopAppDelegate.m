@@ -26,10 +26,20 @@
 {
     // Insert code here to initialize your application
     self.window.delegate = self;
+    [self.window setStyleMask:NSResizableWindowMask];
+    [self.window setBackgroundColor:[NSColor whiteColor]];
+//    [self.window setOpaque:NO];
+    
+//    [self.window setMovableByWindowBackground:YES];
+//    [self.window setIgnoresMouseEvents:NO];
+    
+    // 常に最前面に置く NSFloatingWindowLevel
+    // 逆は NSNormalWindowLevel
+    [self.window setLevel:NSFloatingWindowLevel];
+    
+    
     
     NSRect rect = [self.window.contentView frame];
-//    rect.origin.x = 0.0f;
-//    rect.origin.y = 0.0f;
     
     TDTumblrManager *manager = [TDTumblrManager sharedInstance];
     [manager authenticate:^(bool succeeded) {
@@ -39,11 +49,10 @@
             [tdImageView_ setImageScaling:NSImageScaleProportionallyUpOrDown];
             [tdImageView_ setWantsLayer:YES];
             
-//            tdImageView_.layer.backgroundColor = [[NSColor yellowColor] CGColor];
             [self.window.contentView addSubview:tdImageView_];
         }
         else{
-            // 失敗
+            // TODO: 失敗
             
         }
     }];
@@ -73,11 +82,7 @@
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
 {
     NSRect rect = [sender.contentView frame];
-//    rect.size = frameSize;
-//    rect.origin.x = rect.origin.y = 0.0f;
-    
     tdImageView_.frame = rect;
-    
     
     return frameSize;
 }

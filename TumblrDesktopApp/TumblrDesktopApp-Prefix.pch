@@ -11,3 +11,6 @@
 
 
 #define USER_DEFAULT [NSUserDefaults standardUserDefaults]
+
+
+#define BLOG_NAME @"goraku-club"
