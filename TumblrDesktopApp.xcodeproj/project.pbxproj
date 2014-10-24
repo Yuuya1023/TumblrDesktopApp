@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1852B0F019F8D39100336200 /* TDPostModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1852B0EF19F8D39100336200 /* TDPostModel.m */; };
 		18B570A919F79EF3003E1067 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B570A819F79EF3003E1067 /* Cocoa.framework */; };
 		18B570B319F79EF3003E1067 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18B570B119F79EF3003E1067 /* InfoPlist.strings */; };
 		18B570B519F79EF3003E1067 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B570B419F79EF3003E1067 /* main.m */; };
@@ -18,6 +19,10 @@
 		18B570C919F79EF3003E1067 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B570A819F79EF3003E1067 /* Cocoa.framework */; };
 		18B570D119F79EF3003E1067 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18B570CF19F79EF3003E1067 /* InfoPlist.strings */; };
 		18B570D319F79EF3003E1067 /* TumblrDesktopAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B570D219F79EF3003E1067 /* TumblrDesktopAppTests.m */; };
+		18B570DE19F7A4DA003E1067 /* TDImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B570DD19F7A4DA003E1067 /* TDImageView.m */; };
+		18B570E019F7A7A8003E1067 /* test.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B570DF19F7A7A8003E1067 /* test.png */; };
+		18B570E319F7B94A003E1067 /* TDTumblrManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B570E219F7B94A003E1067 /* TDTumblrManager.m */; };
+		C79F9EA7FD224C049CE5C9AC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EBB49A8990C49F89E474A04 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +36,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0EBB49A8990C49F89E474A04 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		1852B0EE19F8D39100336200 /* TDPostModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDPostModel.h; sourceTree = "<group>"; };
+		1852B0EF19F8D39100336200 /* TDPostModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDPostModel.m; sourceTree = "<group>"; };
 		18B570A519F79EF3003E1067 /* TumblrDesktopApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TumblrDesktopApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B570A819F79EF3003E1067 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		18B570AB19F79EF3003E1067 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -50,6 +58,12 @@
 		18B570CE19F79EF3003E1067 /* TumblrDesktopAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TumblrDesktopAppTests-Info.plist"; sourceTree = "<group>"; };
 		18B570D019F79EF3003E1067 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		18B570D219F79EF3003E1067 /* TumblrDesktopAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TumblrDesktopAppTests.m; sourceTree = "<group>"; };
+		18B570DC19F7A4DA003E1067 /* TDImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDImageView.h; path = ../TDImageView.h; sourceTree = "<group>"; };
+		18B570DD19F7A4DA003E1067 /* TDImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDImageView.m; path = ../TDImageView.m; sourceTree = "<group>"; };
+		18B570DF19F7A7A8003E1067 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test.png; sourceTree = "<group>"; };
+		18B570E119F7B94A003E1067 /* TDTumblrManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDTumblrManager.h; sourceTree = "<group>"; };
+		18B570E219F7B94A003E1067 /* TDTumblrManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDTumblrManager.m; sourceTree = "<group>"; };
+		6C38F00F943E441FAF13D5ED /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +72,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18B570A919F79EF3003E1067 /* Cocoa.framework in Frameworks */,
+				C79F9EA7FD224C049CE5C9AC /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +95,7 @@
 				18B570CC19F79EF3003E1067 /* TumblrDesktopAppTests */,
 				18B570A719F79EF3003E1067 /* Frameworks */,
 				18B570A619F79EF3003E1067 /* Products */,
+				6C38F00F943E441FAF13D5ED /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -98,6 +114,7 @@
 				18B570A819F79EF3003E1067 /* Cocoa.framework */,
 				18B570C719F79EF3003E1067 /* XCTest.framework */,
 				18B570AA19F79EF3003E1067 /* Other Frameworks */,
+				0EBB49A8990C49F89E474A04 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -118,6 +135,13 @@
 				18B570BA19F79EF3003E1067 /* TumblrDesktopAppDelegate.h */,
 				18B570BB19F79EF3003E1067 /* TumblrDesktopAppDelegate.m */,
 				18B570BD19F79EF3003E1067 /* MainMenu.xib */,
+				18B570DC19F7A4DA003E1067 /* TDImageView.h */,
+				18B570DD19F7A4DA003E1067 /* TDImageView.m */,
+				18B570E119F7B94A003E1067 /* TDTumblrManager.h */,
+				18B570E219F7B94A003E1067 /* TDTumblrManager.m */,
+				1852B0EE19F8D39100336200 /* TDPostModel.h */,
+				1852B0EF19F8D39100336200 /* TDPostModel.m */,
+				18B570DF19F7A7A8003E1067 /* test.png */,
 				18B570C019F79EF3003E1067 /* Images.xcassets */,
 				18B570AF19F79EF3003E1067 /* Supporting Files */,
 			);
@@ -161,9 +185,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 18B570D619F79EF3003E1067 /* Build configuration list for PBXNativeTarget "TumblrDesktopApp" */;
 			buildPhases = (
+				58D93802EE534FA69F379F59 /* Check Pods Manifest.lock */,
 				18B570A119F79EF3003E1067 /* Sources */,
 				18B570A219F79EF3003E1067 /* Frameworks */,
 				18B570A319F79EF3003E1067 /* Resources */,
+				10F9315C488B467189421A0F /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -231,6 +257,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18B570E019F7A7A8003E1067 /* test.png in Resources */,
 				18B570B319F79EF3003E1067 /* InfoPlist.strings in Resources */,
 				18B570C119F79EF3003E1067 /* Images.xcassets in Resources */,
 				18B570B919F79EF3003E1067 /* Credits.rtf in Resources */,
@@ -248,12 +275,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		10F9315C488B467189421A0F /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		58D93802EE534FA69F379F59 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		18B570A119F79EF3003E1067 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18B570DE19F7A4DA003E1067 /* TDImageView.m in Sources */,
+				18B570E319F7B94A003E1067 /* TDTumblrManager.m in Sources */,
 				18B570B519F79EF3003E1067 /* main.m in Sources */,
+				1852B0F019F8D39100336200 /* TDPostModel.m in Sources */,
 				18B570BC19F79EF3003E1067 /* TumblrDesktopAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -384,12 +447,14 @@
 		};
 		18B570D719F79EF3003E1067 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C38F00F943E441FAF13D5ED /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TumblrDesktopApp/TumblrDesktopApp-Prefix.pch";
 				INFOPLIST_FILE = "TumblrDesktopApp/TumblrDesktopApp-Info.plist";
+				OTHER_LDFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -397,12 +462,14 @@
 		};
 		18B570D819F79EF3003E1067 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C38F00F943E441FAF13D5ED /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TumblrDesktopApp/TumblrDesktopApp-Prefix.pch";
 				INFOPLIST_FILE = "TumblrDesktopApp/TumblrDesktopApp-Info.plist";
+				OTHER_LDFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -467,6 +534,7 @@
 				18B570D819F79EF3003E1067 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		18B570D919F79EF3003E1067 /* Build configuration list for PBXNativeTarget "TumblrDesktopAppTests" */ = {
 			isa = XCConfigurationList;
@@ -475,6 +543,7 @@
 				18B570DB19F79EF3003E1067 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface TumblrDesktopAppDelegate : NSObject <NSApplicationDelegate>
+@interface TumblrDesktopAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
 
