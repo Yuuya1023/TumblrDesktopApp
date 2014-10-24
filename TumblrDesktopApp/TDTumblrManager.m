@@ -145,11 +145,13 @@ static TDTumblrManager* sharedTDTumblrManager = nil;
           }];
 }
 
-- (void)requestWithOffset:(NSString *)offset callback:(void (^)(id response, bool succeeded))callback
+- (void)requestWithOffset:(NSString *)offset
+                 callback:(void (^)(id response, bool succeeded))callback
 {
     [client_ posts:@"goraku-club"
               type:@"photo"
-        parameters:@{@"limit": @"50"}
+        parameters:@{@"offset": offset,
+                     @"limit": @"50",}
           callback:^(id results, NSError *error) {
               if (!error) {
                   NSLog(@"results: %@", [results description]);

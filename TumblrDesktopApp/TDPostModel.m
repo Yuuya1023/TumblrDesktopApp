@@ -7,8 +7,22 @@
 //
 
 #import "TDPostModel.h"
-#import "TDTumblrManager.h"
 
+#import "TDTumblrManager.h"
+#import "NSImageView+WebCache.h"
+#import "OTWebImageDownloadRequest.h"
+
+
+#define DEFAULT_IMAGE_CONTAINER_SIZE 5
+#define DEFAULT_PRE_LOAD_IMAGE_COUNT 4
+
+@interface TDPostModel () <OTWebImageDownloadRequestDelegate>{
+ 
+    NSMutableArray *imageUrlContainer_;
+    
+    NSMutableArray *requestContainer_;
+}
+@end
 
 @implementation TDPostModel
 @synthesize posts = posts_;
@@ -20,6 +34,8 @@
     if (self) {
         
         posts_ = [NSMutableArray array];
+        imageUrlContainer_ = [NSMutableArray array];
+        requestContainer_ = [NSMutableArray array];
         [self requestPosts];
 
     }
@@ -37,10 +53,80 @@
                           if (succeeded) {
                               NSArray *arr = response;
                               posts_ = [posts_ arrayByAddingObjectsFromArray:arr];
+                              [self createImageUrlContainer];
+                              
+                              // 1リクエストで50件までしか取得できないので追加取得を裏側で行う
+                              [self addRequestposts];
                           }
                       }];
+}
+
+
+- (void)addRequestposts
+{
+    TDTumblrManager *manager = [TDTumblrManager sharedInstance];
+    [manager requestWithOffset:[NSString stringWithFormat:@"%lu",(unsigned long)[posts_ count]]
+                      callback:^(id response, bool succeeded) {
+                          if (succeeded) {
+                              NSArray *arr = response;
+                              if ([arr count] != 0) {
+                                  posts_ = [posts_ arrayByAddingObjectsFromArray:arr];
+                                  // 取得件数が0じゃない限り再帰呼び出し
+                                  [self addRequestposts];
+                              }
+                              else{
+                                  NSLog(@"finished.");
+                              }
+                          }
+                          else{
+                              NSLog(@"error");
+                          }
+                      }];
+}
+
+- (void)preLoadImage:(NSString *)urlString
+{
+    OTWebImageDownloadRequest *req = [OTWebImageDownloadRequest requestWithURL:[NSURL URLWithString:urlString]];
+    req.delegate = self;
+    [requestContainer_ addObject:req];
+    [req start];
+}
+
+
+
+#pragma mark -
+
+- (void)createImageUrlContainer
+{
+    for (int i = 0; i < DEFAULT_IMAGE_CONTAINER_SIZE; i++) {
+        NSString *url = [self getRandomImageUrl];
+        if (i < DEFAULT_PRE_LOAD_IMAGE_COUNT) {
+            // 先読み込み
+            [self preLoadImage:url];
+        }
+        [imageUrlContainer_ addObject:url];
+    }
     
 }
+
+- (NSString *)getNextImageUrl
+{
+    NSString *url = @"";
+    if ([imageUrlContainer_ count] != 0) {
+        url = [imageUrlContainer_ objectAtIndex:0];
+        [imageUrlContainer_ removeObjectAtIndex:0];
+        [imageUrlContainer_ addObject:[self getRandomImageUrl]];
+        
+        {
+            // 先読み込み
+            NSString *preLoadUrl = [imageUrlContainer_ objectAtIndex:DEFAULT_PRE_LOAD_IMAGE_COUNT];
+            [self preLoadImage:preLoadUrl];
+        }
+    }
+    
+    return url;
+}
+
 
 - (NSString *)getRandomImageUrl
 {
@@ -56,6 +142,23 @@
         }
     }
     return url;
+}
+
+
+#pragma mark - OTWebImageDownloadRequest Delegate
+
+- (void)otWebImageDownloadRequest:(OTWebImageDownloadRequest *)request
+        downloadSuccessedWithData:(NSData *)imageData
+                      isFromCache:(BOOL)isFromCache
+{
+    [requestContainer_ removeObject:request];
+}
+
+
+- (void)otWebImageDownloadRequest:(OTWebImageDownloadRequest *)request
+                  failedWithError:(NSError *)error
+{
+    [requestContainer_ removeObject:request];
 }
 
 @end

@@ -11,7 +11,9 @@
 @interface TDPostModel : NSObject
 
 - (void)requestPosts;
+- (NSString *)getNextImageUrl;
 - (NSString *)getRandomImageUrl;
+
 
 
 @property (nonatomic, readonly) NSArray *posts;

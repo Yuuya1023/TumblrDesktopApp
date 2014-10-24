@@ -27,25 +27,9 @@
     // Insert code here to initialize your application
     self.window.delegate = self;
     
-    
-    NSRect rect = self.window.frame;
-    rect.origin.x = rect.origin.y = 0.0f;
-//    {
-//        NSImageView *view;
-//    }
-//    {
-//        tdImageView_ = [[TDImageView alloc] initWithFrame:rect];
-//        [tdImageView_ setImageScaling:NSImageScaleProportionallyUpOrDown];
-//        [tdImageView_ setWantsLayer:YES];
-//        
-//        tdImageView_.layer.backgroundColor = [[NSColor yellowColor] CGColor];
-//        [self.window.contentView addSubview:tdImageView_];
-//        
-//        NSImage *image = [NSImage imageNamed:@"test.png"];  //[[NSImage alloc] initWithContentsOfFile:@"test.png"];
-//        [tdImageView_ setImage:image];
-//
-//    }
-    
+    NSRect rect = [self.window.contentView frame];
+//    rect.origin.x = 0.0f;
+//    rect.origin.y = 0.0f;
     
     TDTumblrManager *manager = [TDTumblrManager sharedInstance];
     [manager authenticate:^(bool succeeded) {
@@ -55,7 +39,7 @@
             [tdImageView_ setImageScaling:NSImageScaleProportionallyUpOrDown];
             [tdImageView_ setWantsLayer:YES];
             
-            tdImageView_.layer.backgroundColor = [[NSColor yellowColor] CGColor];
+//            tdImageView_.layer.backgroundColor = [[NSColor yellowColor] CGColor];
             [self.window.contentView addSubview:tdImageView_];
         }
         else{
@@ -88,8 +72,8 @@
 
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
 {
-    NSRect rect;// = NSMakeRect(0, 0, frameSize.width, frameSize.height);
-    rect.size = frameSize;
+    NSRect rect = [sender.contentView frame];
+//    rect.size = frameSize;
 //    rect.origin.x = rect.origin.y = 0.0f;
     
     tdImageView_.frame = rect;
