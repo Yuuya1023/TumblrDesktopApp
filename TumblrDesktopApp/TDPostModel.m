@@ -17,18 +17,23 @@
 #define DEFAULT_IMAGE_CONTAINER_SIZE 5
 #define DEFAULT_PRE_LOAD_IMAGE_COUNT 4
 
+#define KEY_IMAGE_URL @"image_url"
+#define KEY_POST_URL  @"post_url"
+
 @interface TDPostModel () <OTWebImageDownloadRequestDelegate>{
  
-    NSMutableArray *imageUrlContainer_;
+    NSMutableArray *postDetailContainer_;
     NSMutableArray *requestContainer_;
     
     NSString *currentBlogName_;
+    NSUInteger receivePostsCount_;
 }
 @end
 
 @implementation TDPostModel
 @synthesize posts = posts_;
 @synthesize shouldCancelPostsRequest = shouldCancelPostsRequest_;
+@synthesize currentPostDetail = currentPostDetail_;
 
 
 - (id)init
@@ -36,9 +41,10 @@
     self = [super init];
     if (self) {
         
+        receivePostsCount_ = 0;
         shouldCancelPostsRequest_ = NO;
         posts_ = [NSMutableArray array];
-        imageUrlContainer_ = [NSMutableArray array];
+        postDetailContainer_ = [NSMutableArray array];
         requestContainer_ = [NSMutableArray array];
         
         currentBlogName_ = [USER_DEFAULT objectForKey:UD_BLOG_NAME];
@@ -66,6 +72,7 @@
                           offset:@"0"
                         callback:^(id blogInfo, id postsList, bool succeeded) {
                             if (succeeded) {
+                                receivePostsCount_ = [postsList count];
                                 NSArray *arr = [self processResponseData:postsList];
                                 posts_ = [posts_ arrayByAddingObjectsFromArray:arr];
                                 [self createImageUrlContainer];
@@ -88,18 +95,21 @@
     }
     TDTumblrManager *manager = [TDTumblrManager sharedInstance];
     [manager requestWithBlogName:currentBlogName_
-                          offset:[NSString stringWithFormat:@"%lu",(unsigned long)[posts_ count]]
+                          offset:[NSString stringWithFormat:@"%lu",(unsigned long)receivePostsCount_]
                         callback:^(id blogInfo, id postsList, bool succeeded) {
                             if (succeeded) {
                                 NSArray *arr = [self processResponseData:postsList];
-                                if ([arr count] != 0) {
+                                NSUInteger postsCount = [arr count];
+                                receivePostsCount_ += postsCount;
+                                if (postsCount != 0) {
                                     posts_ = [posts_ arrayByAddingObjectsFromArray:arr];
                                     // 取得件数が0じゃない限り再帰呼び出し
                                     [self addRequestposts];
                                 }
                                 else{
-                                    NSLog(@"%lu finished.",(unsigned long)[posts_ count]);
                                     NSLog(@"%@",blogInfo);
+                                    NSLog(@"%lu posts finished.",(unsigned long)receivePostsCount_);
+                                    NSLog(@"%lu images finished.",(unsigned long)[posts_ count]);
                                     NSString *blogName = [blogInfo objectForKey:@"name"];
                                     // ブログ名をキーにポスト一覧を保存
                                     [USER_DEFAULT setObject:posts_ forKey:blogName];
@@ -129,6 +139,7 @@
     OTWebImageDownloadRequest *req = [OTWebImageDownloadRequest requestWithURL:[NSURL URLWithString:urlString]];
     req.delegate = self;
     [requestContainer_ addObject:req];
+//    NSLog(@"%@",requestContainer_);
     [req start];
 }
 
@@ -142,11 +153,20 @@
     NSInteger count = [responseData count];
     for (NSInteger i = 0; i < count; i++) {
         NSDictionary *detail = [responseData objectAtIndex:i];
+        NSString *post_url = [detail objectForKey:@"post_url"];
         NSArray *photos = [detail objectForKey:@"photos"];
-        NSDictionary *photo = [photos objectAtIndex:0];
-        NSDictionary *original_size = [photo objectForKey:@"original_size"];
         
-        [ret addObject:[original_size objectForKey:@"url"]];
+        NSUInteger photosCount = [photos count];
+        for (NSUInteger j = 0; j < photosCount; j++) {
+            NSDictionary *photo = [photos objectAtIndex:j];
+            NSDictionary *original_size = [photo objectForKey:@"original_size"];
+            NSDictionary *image_url = [original_size objectForKey:@"url"];
+            
+            NSDictionary *dic = @{KEY_POST_URL: post_url,
+                                  KEY_IMAGE_URL: image_url};
+            [ret addObject:dic];
+            
+        }
     }
     return ret;
 }
@@ -154,12 +174,13 @@
 - (void)createImageUrlContainer
 {
     for (int i = 0; i < DEFAULT_IMAGE_CONTAINER_SIZE; i++) {
-        NSString *url = [self getRandomImageUrl];
+//        NSString *url = [self getRandomImageUrl];
+        NSDictionary *dic = [self getRandomPost];
         if (i < DEFAULT_PRE_LOAD_IMAGE_COUNT) {
             // 先読み込み
-            [self preLoadImage:url];
+            [self preLoadImage:[dic objectForKey:KEY_IMAGE_URL]];
         }
-        [imageUrlContainer_ addObject:url];
+        [postDetailContainer_ addObject:dic];
     }
     
 }
@@ -167,30 +188,33 @@
 - (NSString *)getNextImageUrl
 {
     NSString *url = @"";
-    if ([imageUrlContainer_ count] != 0) {
-        url = [imageUrlContainer_ objectAtIndex:0];
-        [imageUrlContainer_ removeObjectAtIndex:0];
-        [imageUrlContainer_ addObject:[self getRandomImageUrl]];
+    if ([postDetailContainer_ count] != 0) {
+        NSDictionary *dic = [postDetailContainer_ objectAtIndex:0];
+        url = [dic objectForKey:KEY_IMAGE_URL];
+        [postDetailContainer_ removeObjectAtIndex:0];
+        [postDetailContainer_ addObject:[self getRandomPost]];
         
         {
             // 先読み込み
-            NSString *preLoadUrl = [imageUrlContainer_ objectAtIndex:DEFAULT_PRE_LOAD_IMAGE_COUNT];
+            NSDictionary *dic = [postDetailContainer_ objectAtIndex:DEFAULT_PRE_LOAD_IMAGE_COUNT];
+            NSString *preLoadUrl = [dic objectForKey:KEY_IMAGE_URL];
             [self preLoadImage:preLoadUrl];
         }
+        
+        currentPostDetail_ = [NSDictionary dictionaryWithDictionary:dic];
     }
-    
     return url;
 }
 
 
-- (NSString *)getRandomImageUrl
+- (NSDictionary *)getRandomPost
 {
-    NSString *url = @"";
+    NSDictionary *dic = [NSDictionary dictionary];
     if ([posts_ count] != 0) {
         NSUInteger randomIndex = arc4random() % [posts_ count];
-        url = [posts_ objectAtIndex:randomIndex];
+        dic = [posts_ objectAtIndex:randomIndex];
     }
-    return url;
+    return dic;
 }
 
 
@@ -201,6 +225,7 @@
                       isFromCache:(BOOL)isFromCache
 {
     [requestContainer_ removeObject:request];
+//    NSLog(@"%@",requestContainer_);
 }
 
 

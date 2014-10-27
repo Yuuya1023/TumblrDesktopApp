@@ -84,4 +84,17 @@
     }
 }
 
+
+
+#pragma mark -
+
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    NSLog(@"click!");
+    NSLog(@"%@",[postModel_ currentPostDetail]);
+    NSString *url = [[postModel_ currentPostDetail] objectForKey:@"post_url"];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+
+}
+
 @end

@@ -118,13 +118,14 @@ static TDTumblrManager* sharedTDTumblrManager = nil;
                      @"limit": @"50",}
           callback:^(id results, NSError *error) {
               if (!error) {
-                  NSLog(@"results: %@", [results description]);
+//                  NSLog(@"results: %@", [results description]);
                   
                   NSArray *blog = results[@"blog"];
                   NSArray *posts = results[@"posts"];
-                  NSLog(@"count -> %lu",(unsigned long)[posts count]);
-                  NSLog(@"posts -> %@",posts);
+//                  NSLog(@"count -> %lu",(unsigned long)[posts count]);
+//                  NSLog(@"posts -> %@",posts);
                   
+                  NSLog(@"Get Response %@ -> %lu",offset, [offset integerValue] + [posts count]);
                   callback(blog, posts, YES);
               }
               else{
@@ -134,30 +135,30 @@ static TDTumblrManager* sharedTDTumblrManager = nil;
           }];
 }
 
-- (void)requestWithOffset:(NSString *)offset
-                 callback:(void (^)(id blogInfo, id postsList, bool succeeded))callback
-{
-    [client_ posts:[USER_DEFAULT objectForKey:UD_BLOG_NAME]
-              type:@"photo"
-        parameters:@{@"offset": offset,
-                     @"limit": @"50",}
-          callback:^(id results, NSError *error) {
-              if (!error) {
-                  NSLog(@"results: %@", [results description]);
-                  
-                  NSArray *blog = results[@"blog"];
-                  NSArray *posts = results[@"posts"];
-                  NSLog(@"count -> %lu",(unsigned long)[posts count]);
-                  NSLog(@"posts -> %@",posts);
-                  
-                  callback(blog, posts, YES);
-              }
-              else{
-                  NSLog(@"%@",error);
-                  callback(nil, nil, NO);
-              }
-          }];
-    
-}
+//- (void)requestWithOffset:(NSString *)offset
+//                 callback:(void (^)(id blogInfo, id postsList, bool succeeded))callback
+//{
+//    [client_ posts:[USER_DEFAULT objectForKey:UD_BLOG_NAME]
+//              type:@"photo"
+//        parameters:@{@"offset": offset,
+//                     @"limit": @"50",}
+//          callback:^(id results, NSError *error) {
+//              if (!error) {
+//                  NSLog(@"results: %@", [results description]);
+//                  
+//                  NSArray *blog = results[@"blog"];
+//                  NSArray *posts = results[@"posts"];
+//                  NSLog(@"count -> %lu",(unsigned long)[posts count]);
+//                  NSLog(@"posts -> %@",posts);
+//                  
+//                  callback(blog, posts, YES);
+//              }
+//              else{
+//                  NSLog(@"%@",error);
+//                  callback(nil, nil, NO);
+//              }
+//          }];
+//    
+//}
 
 @end

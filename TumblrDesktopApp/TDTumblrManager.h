@@ -21,6 +21,6 @@
 - (void)requestWithBlogName:(NSString *)name
                      offset:(NSString *)offset
                    callback:(void (^)(id blogInfo, id postsList, bool succeeded))callback;
-- (void)requestWithOffset:(NSString *)offset callback:(void (^)(id blogInfo, id postsList, bool succeeded))callback;
+//- (void)requestWithOffset:(NSString *)offset callback:(void (^)(id blogInfo, id postsList, bool succeeded))callback;
 
 @end
