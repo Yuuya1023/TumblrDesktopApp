@@ -28,6 +28,7 @@
 {
     // Insert code here to initialize your application
     self.window.delegate = self;
+    self.window.title = @"Tumblr";
 //    [self.window setStyleMask:NSResizableWindowMask];
     [self.window setBackgroundColor:[NSColor whiteColor]];
 //    [self.window setOpaque:NO];
@@ -119,6 +120,18 @@
         }
     }];
 }
+
+
+- (void)setTitleWithBlogName:(NSString *)name state:(BOOL)isLoadingFinished
+{
+    if (isLoadingFinished) {
+        self.window.title = [NSString stringWithFormat:@"✓ %@",name];
+    }
+    else{
+        self.window.title = [NSString stringWithFormat:@"... %@",name];
+    }
+}
+
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {

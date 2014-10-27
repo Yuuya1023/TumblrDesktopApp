@@ -37,7 +37,7 @@
 //            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC));
 //            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                 NSString *url = [postModel_ getNextImageUrl];
-                NSLog(@"%@ -> ",url);
+//                NSLog(@"%@ -> ",url);
                 if (url) {
                     [self initTimer];
                     [self setImageScaling:NSImageScaleProportionallyUpOrDown];
@@ -78,7 +78,7 @@
 - (void)changeImage
 {
     NSString *url = [postModel_ getNextImageUrl];
-    NSLog(@"url -> %@",url);
+//    NSLog(@"url -> %@",url);
     if (url) {
         [self setImageURL:[NSURL URLWithString:url]];
     }

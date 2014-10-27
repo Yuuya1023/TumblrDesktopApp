@@ -11,6 +11,7 @@
 #import "TDTumblrManager.h"
 #import "NSImageView+WebCache.h"
 #import "OTWebImageDownloadRequest.h"
+#import "TumblrDesktopAppDelegate.h"
 
 
 
@@ -47,14 +48,18 @@
         postDetailContainer_ = [NSMutableArray array];
         requestContainer_ = [NSMutableArray array];
         
+        TumblrDesktopAppDelegate *app = (TumblrDesktopAppDelegate *)[[NSApplication sharedApplication] delegate];
+        
         currentBlogName_ = [USER_DEFAULT objectForKey:UD_BLOG_NAME];
         NSArray *cacheData = [USER_DEFAULT objectForKey:currentBlogName_];
         if (cacheData) {
-            // TODO:仮キャッシュ
+            // キャッシュ
+            [app setTitleWithBlogName:currentBlogName_ state:YES];
             posts_ = cacheData;
             [self createImageUrlContainer];
         }
         else{
+            [app setTitleWithBlogName:currentBlogName_ state:NO];
             [self requestPosts];
         }
 
@@ -107,6 +112,7 @@
                                     [self addRequestposts];
                                 }
                                 else{
+                                    // 全て読み込み完了
                                     NSLog(@"%@",blogInfo);
                                     NSLog(@"%lu posts finished.",(unsigned long)receivePostsCount_);
                                     NSLog(@"%lu images finished.",(unsigned long)[posts_ count]);
@@ -123,6 +129,10 @@
                                     [USER_DEFAULT setObject:cachedList forKey:UD_CACHED_BLOG_NAME];
                                     
                                     [USER_DEFAULT synchronize];
+                                    
+                                    // 読み込み完了したのでタイトルを変える
+                                    TumblrDesktopAppDelegate *app = (TumblrDesktopAppDelegate *)[[NSApplication sharedApplication] delegate];
+                                    [app setTitleWithBlogName:currentBlogName_ state:YES];
                                 }
                                 
                             }
