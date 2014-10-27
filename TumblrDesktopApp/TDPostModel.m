@@ -22,6 +22,8 @@
     NSMutableArray *imageUrlContainer_;
     
     NSMutableArray *requestContainer_;
+    
+    NSString *currentBlogName_;
 }
 @end
 
@@ -38,7 +40,8 @@
         imageUrlContainer_ = [NSMutableArray array];
         requestContainer_ = [NSMutableArray array];
         
-        NSArray *cacheData = [USER_DEFAULT objectForKey:BLOG_NAME];
+        currentBlogName_ = [USER_DEFAULT objectForKey:UD_BLOG_NAME];
+        NSArray *cacheData = [USER_DEFAULT objectForKey:currentBlogName_];
         if (cacheData) {
             // TODO:仮キャッシュ
             posts_ = cacheData;
@@ -58,48 +61,62 @@
 - (void)requestPosts
 {
     TDTumblrManager *manager = [TDTumblrManager sharedInstance];
-    [manager requestWithOffset:@"0"
-                      callback:^(id response, bool succeeded) {
-                          if (succeeded) {
-                              NSArray *arr = [self processResponseData:response];
-                              posts_ = [posts_ arrayByAddingObjectsFromArray:arr];
-                              [self createImageUrlContainer];
-                              
-                              // 1リクエストで50件までしか取得できないので追加取得を裏側で行う
-                              [self addRequestposts];
-                          }
-                          else{
-                              NSLog(@"error");
-                              [self addRequestposts];
-                          }
-                      }];
+    [manager requestWithBlogName:currentBlogName_
+                          offset:@"0"
+                        callback:^(id blogInfo, id postsList, bool succeeded) {
+                            if (succeeded) {
+                                NSArray *arr = [self processResponseData:postsList];
+                                posts_ = [posts_ arrayByAddingObjectsFromArray:arr];
+                                [self createImageUrlContainer];
+                                
+                                // 1リクエストで50件までしか取得できないので追加取得を裏側で行う
+                                [self addRequestposts];
+                            }
+                            else{
+                                NSLog(@"error");
+                                [self addRequestposts];
+                            }
+                        }];
 }
 
 
 - (void)addRequestposts
 {
     TDTumblrManager *manager = [TDTumblrManager sharedInstance];
-    [manager requestWithOffset:[NSString stringWithFormat:@"%lu",(unsigned long)[posts_ count]]
-                      callback:^(id response, bool succeeded) {
-                          if (succeeded) {
-                              NSArray *arr = [self processResponseData:response];
-                              if ([arr count] != 0) {
-                                  posts_ = [posts_ arrayByAddingObjectsFromArray:arr];
-                                  // 取得件数が0じゃない限り再帰呼び出し
-                                  [self addRequestposts];
-                              }
-                              else{
-                                  NSLog(@"%lu finished.",(unsigned long)[posts_ count]);
-                                  [USER_DEFAULT setObject:posts_ forKey:BLOG_NAME];
-                                  [USER_DEFAULT synchronize];
-                              }
-                              
-                          }
-                          else{
-                              NSLog(@"error");
-                              [self addRequestposts];
-                          }
-                      }];
+    [manager requestWithBlogName:currentBlogName_
+                          offset:[NSString stringWithFormat:@"%lu",(unsigned long)[posts_ count]]
+                        callback:^(id blogInfo, id postsList, bool succeeded) {
+                            if (succeeded) {
+                                NSArray *arr = [self processResponseData:postsList];
+                                if ([arr count] != 0) {
+                                    posts_ = [posts_ arrayByAddingObjectsFromArray:arr];
+                                    // 取得件数が0じゃない限り再帰呼び出し
+                                    [self addRequestposts];
+                                }
+                                else{
+                                    NSLog(@"%lu finished.",(unsigned long)[posts_ count]);
+                                    NSLog(@"%@",blogInfo);
+                                    NSString *blogName = [blogInfo objectForKey:@"name"];
+                                    // ブログ名をキーにポスト一覧を保存
+                                    [USER_DEFAULT setObject:posts_ forKey:blogName];
+                                    // キャッシュされたブログ名をリストに保存
+                                    NSArray *temp = [USER_DEFAULT objectForKey:UD_CACHED_BLOG_NAME];
+                                    if (!temp) {
+                                        temp = [NSArray array];
+                                    }
+                                    NSMutableArray *cachedList = [temp mutableCopy];
+                                    [cachedList addObject:blogName];
+                                    [USER_DEFAULT setObject:cachedList forKey:UD_CACHED_BLOG_NAME];
+                                    
+                                    [USER_DEFAULT synchronize];
+                                }
+                                
+                            }
+                            else{
+                                NSLog(@"error");
+                                [self addRequestposts];
+                            }
+                        }];
 }
 
 

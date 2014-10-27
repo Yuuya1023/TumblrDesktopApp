@@ -8,9 +8,9 @@
     #import <Cocoa/Cocoa.h>
 #endif
 
-
+#import "config.h"
 
 #define USER_DEFAULT [NSUserDefaults standardUserDefaults]
 
 
-#define BLOG_NAME @"goraku-club"
+//#define BLOG_NAME @"goraku-club"

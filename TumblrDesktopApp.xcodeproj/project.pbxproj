@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1814090419FA3D1100C6C495 /* TDPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1814090319FA3D1100C6C495 /* TDPreferencesWindowController.m */; };
+		1814090719FA3D3A00C6C495 /* TDPreferenceWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1814090619FA3D3A00C6C495 /* TDPreferenceWindow.m */; };
 		1852B0F019F8D39100336200 /* TDPostModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1852B0EF19F8D39100336200 /* TDPostModel.m */; };
 		1852B0F319F9EE1E00336200 /* TDImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1852B0F219F9EE1E00336200 /* TDImageView.m */; };
 		1852B10019F9EF2200336200 /* NSImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 1852B0F719F9EF2200336200 /* NSImageView+WebCache.m */; };
@@ -24,7 +26,6 @@
 		18B570C919F79EF3003E1067 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B570A819F79EF3003E1067 /* Cocoa.framework */; };
 		18B570D119F79EF3003E1067 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18B570CF19F79EF3003E1067 /* InfoPlist.strings */; };
 		18B570D319F79EF3003E1067 /* TumblrDesktopAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B570D219F79EF3003E1067 /* TumblrDesktopAppTests.m */; };
-		18B570E019F7A7A8003E1067 /* test.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B570DF19F7A7A8003E1067 /* test.png */; };
 		18B570E319F7B94A003E1067 /* TDTumblrManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B570E219F7B94A003E1067 /* TDTumblrManager.m */; };
 		C79F9EA7FD224C049CE5C9AC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EBB49A8990C49F89E474A04 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -41,6 +42,11 @@
 
 /* Begin PBXFileReference section */
 		0EBB49A8990C49F89E474A04 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		1814090219FA3D1100C6C495 /* TDPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDPreferencesWindowController.h; sourceTree = "<group>"; };
+		1814090319FA3D1100C6C495 /* TDPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDPreferencesWindowController.m; sourceTree = "<group>"; };
+		1814090519FA3D3A00C6C495 /* TDPreferenceWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDPreferenceWindow.h; sourceTree = "<group>"; };
+		1814090619FA3D3A00C6C495 /* TDPreferenceWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDPreferenceWindow.m; sourceTree = "<group>"; };
+		1814090919FDF20400C6C495 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		1852B0EE19F8D39100336200 /* TDPostModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDPostModel.h; sourceTree = "<group>"; };
 		1852B0EF19F8D39100336200 /* TDPostModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDPostModel.m; sourceTree = "<group>"; };
 		1852B0F119F9EE1E00336200 /* TDImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDImageView.h; sourceTree = "<group>"; };
@@ -72,7 +78,6 @@
 		18B570CE19F79EF3003E1067 /* TumblrDesktopAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TumblrDesktopAppTests-Info.plist"; sourceTree = "<group>"; };
 		18B570D019F79EF3003E1067 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		18B570D219F79EF3003E1067 /* TumblrDesktopAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TumblrDesktopAppTests.m; sourceTree = "<group>"; };
-		18B570DF19F7A7A8003E1067 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test.png; sourceTree = "<group>"; };
 		18B570E119F7B94A003E1067 /* TDTumblrManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDTumblrManager.h; sourceTree = "<group>"; };
 		18B570E219F7B94A003E1067 /* TDTumblrManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDTumblrManager.m; sourceTree = "<group>"; };
 		6C38F00F943E441FAF13D5ED /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
@@ -100,6 +105,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1814090119FA3D1000C6C495 /* Preference */ = {
+			isa = PBXGroup;
+			children = (
+				1814090219FA3D1100C6C495 /* TDPreferencesWindowController.h */,
+				1814090319FA3D1100C6C495 /* TDPreferencesWindowController.m */,
+				1814090519FA3D3A00C6C495 /* TDPreferenceWindow.h */,
+				1814090619FA3D3A00C6C495 /* TDPreferenceWindow.m */,
+			);
+			path = Preference;
+			sourceTree = "<group>";
+		};
 		1852B0F419F9EF2200336200 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,8 +208,9 @@
 				18B570E219F7B94A003E1067 /* TDTumblrManager.m */,
 				1852B0EE19F8D39100336200 /* TDPostModel.h */,
 				1852B0EF19F8D39100336200 /* TDPostModel.m */,
-				18B570DF19F7A7A8003E1067 /* test.png */,
 				18B570C019F79EF3003E1067 /* Images.xcassets */,
+				1814090919FDF20400C6C495 /* config.h */,
+				1814090119FA3D1000C6C495 /* Preference */,
 				1852B0F419F9EF2200336200 /* Lib */,
 				18B570AF19F79EF3003E1067 /* Supporting Files */,
 			);
@@ -309,7 +326,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18B570E019F7A7A8003E1067 /* test.png in Resources */,
 				18B570B319F79EF3003E1067 /* InfoPlist.strings in Resources */,
 				18B570C119F79EF3003E1067 /* Images.xcassets in Resources */,
 				18B570B919F79EF3003E1067 /* Credits.rtf in Resources */,
@@ -371,7 +387,9 @@
 				1852B0F319F9EE1E00336200 /* TDImageView.m in Sources */,
 				18B570BC19F79EF3003E1067 /* TumblrDesktopAppDelegate.m in Sources */,
 				1852B10119F9EF2200336200 /* OTFileCacheManager.m in Sources */,
+				1814090419FA3D1100C6C495 /* TDPreferencesWindowController.m in Sources */,
 				1852B10219F9EF2200336200 /* OTHTTPRequest.m in Sources */,
+				1814090719FA3D3A00C6C495 /* TDPreferenceWindow.m in Sources */,
 				1852B10019F9EF2200336200 /* NSImageView+WebCache.m in Sources */,
 				1852B10319F9EF2200336200 /* OTWebImageDownloadRequest.m in Sources */,
 			);

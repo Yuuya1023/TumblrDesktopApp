@@ -7,8 +7,10 @@
 //
 
 #import "TumblrDesktopAppDelegate.h"
+
 #import "TDImageView.h"
 #import "TDTumblrManager.h"
+#import "TDPreferencesWindowController.h"
 
 
 @interface TumblrDesktopAppDelegate(){
@@ -38,15 +40,16 @@
     [self.window setLevel:NSFloatingWindowLevel];
     
     
-    
     NSRect rect = [self.window.contentView frame];
+    NSLog(@"rect %@",NSStringFromRect(rect));
+    NSLog(@"rect %@",NSStringFromRect(self.window.frame));
+//    rect.origin.x = rect.origin.y = 0.0f;
     
     TDTumblrManager *manager = [TDTumblrManager sharedInstance];
     [manager authenticate:^(bool succeeded) {
         if (succeeded) {
             // 成功
             tdImageView_ = [[TDImageView alloc] initWithFrame:rect];
-            [tdImageView_ setImageScaling:NSImageScaleProportionallyUpOrDown];
             [tdImageView_ setWantsLayer:YES];
             
             [self.window.contentView addSubview:tdImageView_];
@@ -87,4 +90,12 @@
     return frameSize;
 }
 
+#pragma mark -
+
+- (IBAction)showPreferences:(id)sender {
+    NSLog(@"showPreferences");
+    
+    TDPreferencesWindowController *preferenceController = [TDPreferencesWindowController sharedTDPreferencesWindowController];
+    [preferenceController showWindow:sender];
+}
 @end

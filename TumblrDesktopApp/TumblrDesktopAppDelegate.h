@@ -10,6 +10,9 @@
 
 @interface TumblrDesktopAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate>
 
+- (IBAction)showPreferences:(id)sender;
+
+
 @property (assign) IBOutlet NSWindow *window;
 
 @end

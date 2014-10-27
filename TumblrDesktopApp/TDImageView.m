@@ -37,6 +37,7 @@
                 NSLog(@"%@ -> ",url);
                 if (url) {
                     [self initTimer];
+                    [self setImageScaling:NSImageScaleProportionallyUpOrDown];
                     [self setImageURL:[NSURL URLWithString:url]];
                 }
             });

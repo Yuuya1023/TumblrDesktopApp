@@ -108,10 +108,11 @@ static TDTumblrManager* sharedTDTumblrManager = nil;
 }
 
 
-- (void)requestWithOffset:(NSString *)offset
-                 callback:(void (^)(id response, bool succeeded))callback
+- (void)requestWithBlogName:(NSString *)name
+                     offset:(NSString *)offset
+                   callback:(void (^)(id blogInfo, id postsList, bool succeeded))callback
 {
-    [client_ posts:BLOG_NAME
+    [client_ posts:name
               type:@"photo"
         parameters:@{@"offset": offset,
                      @"limit": @"50",}
@@ -119,15 +120,41 @@ static TDTumblrManager* sharedTDTumblrManager = nil;
               if (!error) {
                   NSLog(@"results: %@", [results description]);
                   
+                  NSArray *blog = results[@"blog"];
                   NSArray *posts = results[@"posts"];
                   NSLog(@"count -> %lu",(unsigned long)[posts count]);
                   NSLog(@"posts -> %@",posts);
                   
-                  callback(posts, YES);
+                  callback(blog, posts, YES);
               }
               else{
                   NSLog(@"%@",error);
-                  callback(nil, NO);
+                  callback(nil, nil, NO);
+              }
+          }];
+}
+
+- (void)requestWithOffset:(NSString *)offset
+                 callback:(void (^)(id blogInfo, id postsList, bool succeeded))callback
+{
+    [client_ posts:[USER_DEFAULT objectForKey:UD_BLOG_NAME]
+              type:@"photo"
+        parameters:@{@"offset": offset,
+                     @"limit": @"50",}
+          callback:^(id results, NSError *error) {
+              if (!error) {
+                  NSLog(@"results: %@", [results description]);
+                  
+                  NSArray *blog = results[@"blog"];
+                  NSArray *posts = results[@"posts"];
+                  NSLog(@"count -> %lu",(unsigned long)[posts count]);
+                  NSLog(@"posts -> %@",posts);
+                  
+                  callback(blog, posts, YES);
+              }
+              else{
+                  NSLog(@"%@",error);
+                  callback(nil, nil, NO);
               }
           }];
     
