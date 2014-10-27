@@ -404,7 +404,9 @@
     }
     if (self.shouldClearCachedResponseWhenRequestDone)
     {
-        if (_request.URL)
+        // MARK: 仮修正
+        NSString *url = [_request.URL absoluteString];
+        if (url && ![url isEqualToString:@""])
         {
             [[NSURLCache sharedURLCache] removeCachedResponseForRequest:_request];
         }

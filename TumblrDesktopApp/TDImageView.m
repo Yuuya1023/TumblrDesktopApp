@@ -17,6 +17,7 @@
 
     TDPostModel *postModel_;
     
+    float interval_;
     NSTimer *changeImageTimer_;
 }
 @end
@@ -30,9 +31,11 @@
         // Initialization code here.
         postModel_ = [[TDPostModel alloc] init];
         
+        interval_ = [[USER_DEFAULT objectForKey:UD_DISPLAY_INTERVAL] floatValue];
+        
         {
-            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC));
-            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC));
+//            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                 NSString *url = [postModel_ getNextImageUrl];
                 NSLog(@"%@ -> ",url);
                 if (url) {
@@ -40,7 +43,7 @@
                     [self setImageScaling:NSImageScaleProportionallyUpOrDown];
                     [self setImageURL:[NSURL URLWithString:url]];
                 }
-            });
+//            });
         }
     }
     return self;
@@ -54,12 +57,17 @@
 }
 
 
+- (void)removeFromSuperview{
+    [super removeFromSuperview];
+    [postModel_ setShouldCancelPostsRequest:YES];
+}
+
 
 #pragma mark -
 
 - (void)initTimer
 {
-    changeImageTimer_ = [NSTimer scheduledTimerWithTimeInterval:20.0f
+    changeImageTimer_ = [NSTimer scheduledTimerWithTimeInterval:interval_
                                                          target:self
                                                        selector:NSSelectorFromString(@"changeImage")
                                                        userInfo:nil

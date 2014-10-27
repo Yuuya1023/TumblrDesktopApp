@@ -15,7 +15,7 @@
 - (NSString *)getRandomImageUrl;
 
 
-
+@property (nonatomic) BOOL shouldCancelPostsRequest;
 @property (nonatomic, readonly) NSArray *posts;
 
 @end

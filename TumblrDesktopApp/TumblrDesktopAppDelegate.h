@@ -10,6 +10,7 @@
 
 @interface TumblrDesktopAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate>
 
+- (void)initImageView;
 - (IBAction)showPreferences:(id)sender;
 
 

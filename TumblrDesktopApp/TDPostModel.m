@@ -20,7 +20,6 @@
 @interface TDPostModel () <OTWebImageDownloadRequestDelegate>{
  
     NSMutableArray *imageUrlContainer_;
-    
     NSMutableArray *requestContainer_;
     
     NSString *currentBlogName_;
@@ -29,6 +28,7 @@
 
 @implementation TDPostModel
 @synthesize posts = posts_;
+@synthesize shouldCancelPostsRequest = shouldCancelPostsRequest_;
 
 
 - (id)init
@@ -36,6 +36,7 @@
     self = [super init];
     if (self) {
         
+        shouldCancelPostsRequest_ = NO;
         posts_ = [NSMutableArray array];
         imageUrlContainer_ = [NSMutableArray array];
         requestContainer_ = [NSMutableArray array];
@@ -74,7 +75,7 @@
                             }
                             else{
                                 NSLog(@"error");
-                                [self addRequestposts];
+                                [self requestPosts];
                             }
                         }];
 }
@@ -82,6 +83,9 @@
 
 - (void)addRequestposts
 {
+    if (shouldCancelPostsRequest_) {
+        return;
+    }
     TDTumblrManager *manager = [TDTumblrManager sharedInstance];
     [manager requestWithBlogName:currentBlogName_
                           offset:[NSString stringWithFormat:@"%lu",(unsigned long)[posts_ count]]

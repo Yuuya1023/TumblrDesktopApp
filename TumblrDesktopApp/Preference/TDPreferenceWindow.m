@@ -9,6 +9,7 @@
 #import "TDPreferenceWindow.h"
 
 #import "OTFileCacheManager.h"
+#import "TumblrDesktopAppDelegate.h"
 
 
 
@@ -23,6 +24,7 @@
     BOOL isAlwaysTop_;
     
     NSAlert *alert_;
+    BOOL isRemovedCache_;
 }
 @end
 
@@ -36,6 +38,7 @@
 //        self.contentView = [[NSView alloc] initWithFrame:NSMakeRect(100, 100, 300, 300)];
         self.title = @"Preferences";
         [self setFrame:NSMakeRect(0, 100, 220, 300) display:YES];
+        isRemovedCache_ = NO;
         
         // ブログ名
         {
@@ -189,6 +192,7 @@
 {
     NSLog(@"%d",returnCode);
     if (returnCode == 1) {
+        // キャッシュ消す
         NSArray *cachedBlogList = [USER_DEFAULT objectForKey:UD_CACHED_BLOG_NAME];
         for (NSUInteger i = 0; i < [cachedBlogList count]; i++) {
             NSString *blogName = [cachedBlogList objectAtIndex:i];
@@ -198,6 +202,8 @@
         [USER_DEFAULT synchronize];
         
         [[[OTFileCacheManager alloc] init] clearAllCache];
+        isRemovedCache_ = YES;
+        
     }
     
 }
@@ -207,6 +213,10 @@
 {
     [self close];
     [self initSettingFromUserDefault];
+    if (isRemovedCache_) {
+        NSNotification *notif = [NSNotification notificationWithName:NOTIF_UPDATE_PREFERENCES object:self];
+        [NOTIF_CENTER postNotification:notif];
+    }
 }
 
 
@@ -226,6 +236,8 @@
     [USER_DEFAULT setInteger:isAlwaysCheckBox_.state forKey:UD_IS_ALWAYS_TOP];
     [USER_DEFAULT synchronize];
     
+    NSNotification *notif = [NSNotification notificationWithName:NOTIF_UPDATE_PREFERENCES object:self];
+    [NOTIF_CENTER postNotification:notif];
 }
 
 

@@ -28,37 +28,19 @@
 {
     // Insert code here to initialize your application
     self.window.delegate = self;
-    [self.window setStyleMask:NSResizableWindowMask];
+//    [self.window setStyleMask:NSResizableWindowMask];
     [self.window setBackgroundColor:[NSColor whiteColor]];
 //    [self.window setOpaque:NO];
     
 //    [self.window setMovableByWindowBackground:YES];
 //    [self.window setIgnoresMouseEvents:NO];
     
-    // 常に最前面に置く NSFloatingWindowLevel
-    // 逆は NSNormalWindowLevel
-    [self.window setLevel:NSFloatingWindowLevel];
-    
-    
-    NSRect rect = [self.window.contentView frame];
-    NSLog(@"rect %@",NSStringFromRect(rect));
-    NSLog(@"rect %@",NSStringFromRect(self.window.frame));
-//    rect.origin.x = rect.origin.y = 0.0f;
-    
-    TDTumblrManager *manager = [TDTumblrManager sharedInstance];
-    [manager authenticate:^(bool succeeded) {
-        if (succeeded) {
-            // 成功
-            tdImageView_ = [[TDImageView alloc] initWithFrame:rect];
-            [tdImageView_ setWantsLayer:YES];
-            
-            [self.window.contentView addSubview:tdImageView_];
-        }
-        else{
-            // TODO: 失敗
-            
-        }
-    }];
+    [NOTIF_CENTER addObserver:self
+                     selector:NSSelectorFromString(@"initImageView")
+                         name:NOTIF_UPDATE_PREFERENCES
+                       object:nil];
+
+    [self initImageView];
     
 }
 
@@ -88,6 +70,61 @@
     tdImageView_.frame = rect;
     
     return frameSize;
+}
+
+
+#pragma mark -
+
+- (void)initImageView
+{
+    if ([USER_DEFAULT integerForKey:UD_IS_ALWAYS_TOP] == 1) {
+        // 常に最前面に置く NSFloatingWindowLevel
+        [self.window setLevel:NSFloatingWindowLevel];
+    }
+    else{
+        // 普通 NSNormalWindowLevel
+        [self.window setLevel:NSNormalWindowLevel];
+    }
+    
+    if (tdImageView_) {
+        [tdImageView_ removeFromSuperview];
+    }
+        
+    TDTumblrManager *manager = [TDTumblrManager sharedInstance];
+    [manager authenticate:^(bool succeeded) {
+        if (succeeded) {
+            // 成功
+            NSRect rect = [self.window.contentView frame];
+            //            rect.origin.x = rect.origin.y = 0.0f;
+            NSLog(@"rect %@",NSStringFromRect(rect));
+            NSLog(@"rect %@",NSStringFromRect(self.window.frame));
+            tdImageView_ = [[TDImageView alloc] initWithFrame:rect];
+            [tdImageView_ setWantsLayer:YES];
+            
+            [self.window.contentView addSubview:tdImageView_];
+        }
+        else{
+            // 失敗
+            NSAlert *alert = [NSAlert alertWithMessageText:@"認証に失敗しました"
+                                             defaultButton:@"OK"
+                                           alternateButton:nil
+                                               otherButton:nil
+                                 informativeTextWithFormat:@"既にログインしている可能性があるためブラウザからTumbrを開いて一度ログアウトしてからお試しください。"];
+            
+            [alert beginSheetModalForWindow:self.window
+                               modalDelegate:self
+                              didEndSelector:NSSelectorFromString(@"alertDidEnd:returnCode:contextInfo:")
+                                 contextInfo:nil];
+        }
+    }];
+}
+
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+    NSLog(@"%d",returnCode);
+    if (returnCode == 1) {
+        [self initImageView];
+    }
 }
 
 #pragma mark -
