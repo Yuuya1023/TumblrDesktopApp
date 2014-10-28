@@ -28,6 +28,8 @@
     
     NSString *currentBlogName_;
     NSUInteger receivePostsCount_;
+    
+    NSUInteger retryCount_;
 }
 @end
 
@@ -43,6 +45,7 @@
     if (self) {
         
         receivePostsCount_ = 0;
+        retryCount_ = 0;
         shouldCancelPostsRequest_ = NO;
         posts_ = [NSMutableArray array];
         postDetailContainer_ = [NSMutableArray array];
@@ -75,8 +78,8 @@
     TDTumblrManager *manager = [TDTumblrManager sharedInstance];
     [manager requestWithBlogName:currentBlogName_
                           offset:@"0"
-                        callback:^(id blogInfo, id postsList, bool succeeded) {
-                            if (succeeded) {
+                        callback:^(id blogInfo, id postsList, NSError *error) {
+                            if (!error) {
                                 receivePostsCount_ = [postsList count];
                                 NSArray *arr = [self processResponseData:postsList];
                                 posts_ = [posts_ arrayByAddingObjectsFromArray:arr];
@@ -86,8 +89,9 @@
                                 [self addRequestposts];
                             }
                             else{
-                                NSLog(@"error");
-                                [self requestPosts];
+//                                NSLog(@"error %@",error);
+                                [self showError:error];
+//                                [self requestPosts];
                             }
                         }];
 }
@@ -101,8 +105,9 @@
     TDTumblrManager *manager = [TDTumblrManager sharedInstance];
     [manager requestWithBlogName:currentBlogName_
                           offset:[NSString stringWithFormat:@"%lu",(unsigned long)receivePostsCount_]
-                        callback:^(id blogInfo, id postsList, bool succeeded) {
-                            if (succeeded) {
+                        callback:^(id blogInfo, id postsList, NSError *error) {
+                            if (!error) {
+                                retryCount_ = 0;
                                 NSArray *arr = [self processResponseData:postsList];
                                 NSUInteger postsCount = [arr count];
                                 receivePostsCount_ += postsCount;
@@ -138,9 +143,38 @@
                             }
                             else{
                                 NSLog(@"error");
-                                [self addRequestposts];
+                                if (retryCount_ > 4) {
+                                    [self showError:error];
+                                }
+                                else{
+                                    retryCount_++;
+                                    [self addRequestposts];
+                                }
                             }
                         }];
+}
+
+
+- (void)showError:(NSError *)error
+{
+    NSLog(@"error - >%@",error);
+    NSAlert *alert = [NSAlert alertWithMessageText:error.domain
+                                     defaultButton:@"設定"
+                                   alternateButton:nil
+                                       otherButton:nil
+                         informativeTextWithFormat:@"%@",error.localizedDescription];
+    
+    TumblrDesktopAppDelegate *app = (TumblrDesktopAppDelegate *)[[NSApplication sharedApplication] delegate];
+    [alert beginSheetModalForWindow:app.window
+                      modalDelegate:self
+                     didEndSelector:NSSelectorFromString(@"alertDidEnd:returnCode:contextInfo:")
+                        contextInfo:nil];
+}
+
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+    TumblrDesktopAppDelegate *app = (TumblrDesktopAppDelegate *)[[NSApplication sharedApplication] delegate];
+    [app showPreferences:nil];
 }
 
 

@@ -19,6 +19,6 @@
 - (void)authenticate:(void (^)(bool succeeded))callback;
 - (void)requestWithBlogName:(NSString *)name
                      offset:(NSString *)offset
-                   callback:(void (^)(id blogInfo, id postsList, bool succeeded))callback;
+                   callback:(void (^)(id blogInfo, id postsList, NSError *error))callback;
 
 @end

@@ -99,7 +99,7 @@
         // キャッシュ削除
         {
             NSTextField *text = [[NSTextField alloc] initWithFrame:NSMakeRect(20.0f, self.frame.size.height - 142.0f, 130.0f, 20.0f)];
-            text.stringValue = @"キャッシュ削除：";
+            text.stringValue = @"キャッシュ：";
             [text setBezeled:NO];
             [text setDrawsBackground:NO];
             [text setEditable:NO];
@@ -201,7 +201,7 @@
         [USER_DEFAULT removeObjectForKey:UD_CACHED_BLOG_NAME];
         [USER_DEFAULT synchronize];
         
-        [[[OTFileCacheManager alloc] init] clearAllCache];
+//        [[[OTFileCacheManager alloc] init] clearAllCache];
         isRemovedCache_ = YES;
         
     }

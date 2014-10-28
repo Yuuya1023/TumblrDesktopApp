@@ -110,7 +110,7 @@ static TDTumblrManager* sharedTDTumblrManager = nil;
 
 - (void)requestWithBlogName:(NSString *)name
                      offset:(NSString *)offset
-                   callback:(void (^)(id blogInfo, id postsList, bool succeeded))callback
+                   callback:(void (^)(id blogInfo, id postsList, NSError *error))callback
 {
     [client_ posts:name
               type:@"photo"
@@ -126,11 +126,11 @@ static TDTumblrManager* sharedTDTumblrManager = nil;
 //                  NSLog(@"posts -> %@",posts);
                   
                   NSLog(@"Get Response %@ -> %lu",offset, [offset integerValue] + [posts count]);
-                  callback(blog, posts, YES);
+                  callback(blog, posts, nil);
               }
               else{
                   NSLog(@"%@",error);
-                  callback(nil, nil, NO);
+                  callback(nil, nil, error);
               }
           }];
 }
