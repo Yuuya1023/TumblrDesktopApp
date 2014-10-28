@@ -34,16 +34,12 @@
         interval_ = [[USER_DEFAULT objectForKey:UD_DISPLAY_INTERVAL] floatValue];
         
         {
-//            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC));
-//            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                NSString *url = [postModel_ getNextImageUrl];
-//                NSLog(@"%@ -> ",url);
-                if (url) {
-                    [self initTimer];
-                    [self setImageScaling:NSImageScaleProportionallyUpOrDown];
-                    [self setImageURL:[NSURL URLWithString:url]];
-                }
-//            });
+            NSString *url = [postModel_ getNextImageUrl];
+            if (url) {
+                [self initTimer];
+                [self setImageScaling:NSImageScaleProportionallyUpOrDown];
+                [self setImageURL:[NSURL URLWithString:url]];
+            }
         }
     }
     return self;
@@ -59,6 +55,8 @@
 
 - (void)removeFromSuperview{
     [super removeFromSuperview];
+    [changeImageTimer_ fire];
+    [changeImageTimer_ invalidate];
     [postModel_ setShouldCancelPostsRequest:YES];
 }
 

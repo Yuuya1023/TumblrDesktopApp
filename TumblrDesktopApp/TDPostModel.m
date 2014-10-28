@@ -23,15 +23,19 @@
 
 @interface TDPostModel () <OTWebImageDownloadRequestDelegate>{
  
+    /// 先読みする投稿を貯めておく用
     NSMutableArray *postDetailContainer_;
+    /// 先読みリクエストを貯めておく用
     NSMutableArray *requestContainer_;
+    /// ランダム表示で被りが出ないように貯めておく用
+    NSMutableArray *restPostContainerForRandom_;
     
     NSString *currentBlogName_;
     NSUInteger receivePostsCount_;
-    
     NSUInteger retryCount_;
-    
     NSUInteger currentPostIndex_;
+    BOOL isRandomIndicate_;
+    BOOL isFinishedLoad_;
 }
 @end
 
@@ -50,10 +54,14 @@
         retryCount_ = 0;
         shouldCancelPostsRequest_ = NO;
         currentPostIndex_ = 0;
+        isRandomIndicate_ = [[USER_DEFAULT objectForKey:UD_IS_RANDOM_INDICATE] boolValue];
+        isFinishedLoad_ = NO;
         
         posts_ = [NSMutableArray array];
         postDetailContainer_ = [NSMutableArray array];
         requestContainer_ = [NSMutableArray array];
+        restPostContainerForRandom_ = [NSMutableArray array];
+        
         
         TumblrDesktopAppDelegate *app = (TumblrDesktopAppDelegate *)[[NSApplication sharedApplication] delegate];
         
@@ -65,6 +73,13 @@
                 // キャッシュ
                 [app setTitleWithBlogName:currentBlogName_ state:YES];
                 posts_ = cacheData;
+                
+                // ランダム表示用
+                if (isRandomIndicate_) {
+                    restPostContainerForRandom_ = [NSMutableArray arrayWithArray:posts_];
+                }
+                isFinishedLoad_ = YES;
+                
                 [self createImageUrlContainer];
             }
             else{
@@ -147,6 +162,12 @@
                                     [USER_DEFAULT setObject:cachedList forKey:UD_CACHED_BLOG_NAME];
                                     
                                     [USER_DEFAULT synchronize];
+                                    
+                                    // ランダム表示用
+                                    if (isRandomIndicate_) {
+                                        restPostContainerForRandom_ = [NSMutableArray arrayWithArray:posts_];
+                                    }
+                                    isFinishedLoad_ = YES;
                                     
                                     // 読み込み完了したのでタイトルを変える
                                     TumblrDesktopAppDelegate *app = (TumblrDesktopAppDelegate *)[[NSApplication sharedApplication] delegate];
@@ -271,10 +292,12 @@
     }
     else{
         NSDictionary *dic = [NSDictionary dictionary];
-        if ([posts_ count] != 0 && currentPostIndex_ < [posts_ count]) {
-            dic = [posts_ objectAtIndex:currentPostIndex_];
-            currentPostIndex_++;
+        if (currentPostIndex_ >= [posts_ count]) {
+            currentPostIndex_ = 0;
         }
+        dic = [posts_ objectAtIndex:currentPostIndex_];
+        currentPostIndex_++;
+        
         return dic;
     }
 }
@@ -284,8 +307,21 @@
 {
     NSDictionary *dic = [NSDictionary dictionary];
     if ([posts_ count] != 0) {
-        NSUInteger randomIndex = arc4random() % [posts_ count];
-        dic = [posts_ objectAtIndex:randomIndex];
+        if (isFinishedLoad_) {
+            // 一周するまで被らないようにする処理
+            if ([restPostContainerForRandom_ count] == 0) {
+                restPostContainerForRandom_ = [NSMutableArray arrayWithArray:posts_];
+            }
+            NSUInteger randomIndex = arc4random() % [restPostContainerForRandom_ count];
+            dic = [restPostContainerForRandom_ objectAtIndex:randomIndex];
+            [restPostContainerForRandom_ removeObjectAtIndex:randomIndex];
+            
+            NSLog(@"%lu",(unsigned long)[restPostContainerForRandom_ count]);
+        }
+        else{
+            NSUInteger randomIndex = arc4random() % [posts_ count];
+            dic = [posts_ objectAtIndex:randomIndex];
+        }
     }
     return dic;
 }
