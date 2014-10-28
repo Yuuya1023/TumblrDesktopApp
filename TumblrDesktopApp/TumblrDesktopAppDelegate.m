@@ -27,6 +27,11 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Insert code here to initialize your application
+    [USER_DEFAULT registerDefaults:@{UD_DISPLAY_INTERVAL: @"10",
+                                     UD_IS_ALWAYS_TOP: @"1",
+                                     UD_IS_RANDOM_INDICATE: @"1"}];
+    
+    
     self.window.delegate = self;
     self.window.title = @"Tumblr";
     [[self.window standardWindowButton:NSWindowCloseButton] setEnabled:NO];

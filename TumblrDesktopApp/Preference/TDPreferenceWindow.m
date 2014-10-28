@@ -17,11 +17,11 @@
 
     NSTextField *blogNameField_;
     NSComboBox *displayIntervalBox_;
+    NSButton *isRandomIndicateBox_;
     NSButton *isAlwaysCheckBox_;
     
     NSString *blogName_;
     NSString *displayInterval_;
-    BOOL isAlwaysTop_;
     
     NSAlert *alert_;
     BOOL isRemovedCache_;
@@ -37,7 +37,7 @@
         //
 //        self.contentView = [[NSView alloc] initWithFrame:NSMakeRect(100, 100, 300, 300)];
         self.title = @"Preferences";
-        [self setFrame:NSMakeRect(0, 100, 220, 190) display:YES];
+        [self setFrame:NSMakeRect(0, 100, 220, 220) display:YES];
         isRemovedCache_ = NO;
         
         // ブログ名
@@ -79,9 +79,27 @@
             [self.contentView addSubview:displayIntervalBox_];
         }
         
-        // 優先表示設定
+        // ランダム表示
         {
             NSTextField *text = [[NSTextField alloc] initWithFrame:NSMakeRect(20.0f, self.frame.size.height - 112.0f, 130.0f, 20.0f)];
+            text.stringValue = @"ランダム表示：";
+            [text setBezeled:NO];
+            [text setDrawsBackground:NO];
+            [text setEditable:NO];
+            [text setSelectable:NO];
+            [self.contentView addSubview:text];
+            
+            isRandomIndicateBox_ = [[NSButton alloc] initWithFrame:NSMakeRect(183.0f, self.frame.size.height - 110.0f, 25.0f, 20.0f)];
+            [isRandomIndicateBox_ setButtonType:NSSwitchButton];
+            isRandomIndicateBox_.title = @"";
+            isRandomIndicateBox_.state = 0;
+            [self.contentView addSubview:isRandomIndicateBox_];
+            
+        }
+        
+        // 優先表示設定
+        {
+            NSTextField *text = [[NSTextField alloc] initWithFrame:NSMakeRect(20.0f, self.frame.size.height - 142.0f, 130.0f, 20.0f)];
             text.stringValue = @"常に最前面に配置：";
             [text setBezeled:NO];
             [text setDrawsBackground:NO];
@@ -89,7 +107,7 @@
             [text setSelectable:NO];
             [self.contentView addSubview:text];
 
-            isAlwaysCheckBox_ = [[NSButton alloc] initWithFrame:NSMakeRect(183.0f, self.frame.size.height - 110.0f, 25.0f, 20.0f)];
+            isAlwaysCheckBox_ = [[NSButton alloc] initWithFrame:NSMakeRect(183.0f, self.frame.size.height - 140.0f, 25.0f, 20.0f)];
             [isAlwaysCheckBox_ setButtonType:NSSwitchButton];
             isAlwaysCheckBox_.title = @"";
             isAlwaysCheckBox_.state = 0;
@@ -99,7 +117,7 @@
         
         // キャッシュ削除
         {
-            NSTextField *text = [[NSTextField alloc] initWithFrame:NSMakeRect(20.0f, self.frame.size.height - 142.0f, 130.0f, 20.0f)];
+            NSTextField *text = [[NSTextField alloc] initWithFrame:NSMakeRect(20.0f, self.frame.size.height - 172.0f, 130.0f, 20.0f)];
             text.stringValue = @"キャッシュ：";
             [text setBezeled:NO];
             [text setDrawsBackground:NO];
@@ -107,7 +125,7 @@
             [text setSelectable:NO];
             [self.contentView addSubview:text];
 
-            NSButton *deleteButton = [[NSButton alloc] initWithFrame:NSMakeRect(150.0f, self.frame.size.height - 145.0f, 55.0f, 25.0f)];
+            NSButton *deleteButton = [[NSButton alloc] initWithFrame:NSMakeRect(150.0f, self.frame.size.height - 175.0f, 55.0f, 25.0f)];
             deleteButton.bezelStyle = NSRoundedBezelStyle;
             deleteButton.title = @"削除";
             [deleteButton setTarget:self];
@@ -117,14 +135,14 @@
         
         // OK キャンセルボタン
         {
-            NSButton *cancelButton = [[NSButton alloc] initWithFrame:NSMakeRect(60.0f, self.frame.size.height - 180.0f, 90.0f, 25.0f)];
+            NSButton *cancelButton = [[NSButton alloc] initWithFrame:NSMakeRect(60.0f, self.frame.size.height - 210.0f, 90.0f, 25.0f)];
             cancelButton.bezelStyle = NSRoundedBezelStyle;
             cancelButton.title = @"キャンセル";
             [cancelButton setTarget:self];
             [cancelButton setAction:NSSelectorFromString(@"cancel:")];
             [self.contentView addSubview:cancelButton];
             
-            NSButton *okButton = [[NSButton alloc] initWithFrame:NSMakeRect(150.0f, self.frame.size.height - 180.0f, 55.0f, 25.0f)];
+            NSButton *okButton = [[NSButton alloc] initWithFrame:NSMakeRect(150.0f, self.frame.size.height - 210.0f, 55.0f, 25.0f)];
             okButton.bezelStyle = NSRoundedBezelStyle;
             okButton.title = @"OK";
             [okButton setKeyEquivalent:@"\r"];
@@ -159,6 +177,14 @@
     }
     else{
         displayIntervalBox_.stringValue = DEFAULT_DISPLAY_INTERVAL;
+    }
+    
+    NSUInteger isRandomIndicate = [USER_DEFAULT integerForKey:UD_IS_RANDOM_INDICATE];
+    if (isRandomIndicate) {
+        [isRandomIndicateBox_ setState:isRandomIndicate];
+    }
+    else{
+        [isRandomIndicateBox_ setState:YES];
     }
     
     NSUInteger isAlwaysTop = [USER_DEFAULT integerForKey:UD_IS_ALWAYS_TOP];
@@ -234,6 +260,7 @@
         }
         [USER_DEFAULT setObject:interval forKey:UD_DISPLAY_INTERVAL];
     }
+    [USER_DEFAULT setInteger:isRandomIndicateBox_.state forKey:UD_IS_RANDOM_INDICATE];
     [USER_DEFAULT setInteger:isAlwaysCheckBox_.state forKey:UD_IS_ALWAYS_TOP];
     [USER_DEFAULT synchronize];
     

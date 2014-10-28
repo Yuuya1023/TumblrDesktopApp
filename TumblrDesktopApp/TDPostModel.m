@@ -30,6 +30,8 @@
     NSUInteger receivePostsCount_;
     
     NSUInteger retryCount_;
+    
+    NSUInteger currentPostIndex_;
 }
 @end
 
@@ -47,6 +49,8 @@
         receivePostsCount_ = 0;
         retryCount_ = 0;
         shouldCancelPostsRequest_ = NO;
+        currentPostIndex_ = 0;
+        
         posts_ = [NSMutableArray array];
         postDetailContainer_ = [NSMutableArray array];
         requestContainer_ = [NSMutableArray array];
@@ -228,7 +232,7 @@
 {
     for (int i = 0; i < DEFAULT_IMAGE_CONTAINER_SIZE; i++) {
 //        NSString *url = [self getRandomImageUrl];
-        NSDictionary *dic = [self getRandomPost];
+        NSDictionary *dic = [self getNextPost];
         if (i < DEFAULT_PRE_LOAD_IMAGE_COUNT) {
             // 先読み込み
             [self preLoadImage:[dic objectForKey:KEY_IMAGE_URL]];
@@ -245,7 +249,7 @@
         NSDictionary *dic = [postDetailContainer_ objectAtIndex:0];
         url = [dic objectForKey:KEY_IMAGE_URL];
         [postDetailContainer_ removeObjectAtIndex:0];
-        [postDetailContainer_ addObject:[self getRandomPost]];
+        [postDetailContainer_ addObject:[self getNextPost]];
         
         {
             // 先読み込み
@@ -257,6 +261,22 @@
         currentPostDetail_ = [NSDictionary dictionaryWithDictionary:dic];
     }
     return url;
+}
+
+
+- (NSDictionary *)getNextPost
+{
+    if ([[USER_DEFAULT objectForKey:UD_IS_RANDOM_INDICATE] integerValue]) {
+        return [self getRandomPost];
+    }
+    else{
+        NSDictionary *dic = [NSDictionary dictionary];
+        if ([posts_ count] != 0 && currentPostIndex_ < [posts_ count]) {
+            dic = [posts_ objectAtIndex:currentPostIndex_];
+            currentPostIndex_++;
+        }
+        return dic;
+    }
 }
 
 
