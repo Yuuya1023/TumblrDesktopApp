@@ -35,7 +35,7 @@
         
         {
             NSString *url = [postModel_ getNextImageUrl];
-            if (url) {
+            if (url && [url length] != 0) {
                 [self initTimer];
                 [self setImageScaling:NSImageScaleProportionallyUpOrDown];
                 [self setImageURL:[NSURL URLWithString:url]];
