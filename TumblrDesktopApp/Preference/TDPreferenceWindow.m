@@ -68,6 +68,7 @@
             displayIntervalBox_ = [[NSComboBox alloc] initWithFrame:NSMakeRect(153.0f, self.frame.size.height - 83.0f, 50.0f, 25.0f)];
             displayIntervalBox_.delegate = self;
 //            displayIntervalBox_.completes = YES;
+            [displayIntervalBox_ insertItemWithObjectValue:@"5" atIndex:[displayIntervalBox_ numberOfItems]];
             [displayIntervalBox_ insertItemWithObjectValue:@"10" atIndex:[displayIntervalBox_ numberOfItems]];
             [displayIntervalBox_ insertItemWithObjectValue:@"20" atIndex:[displayIntervalBox_ numberOfItems]];
             [displayIntervalBox_ insertItemWithObjectValue:@"30" atIndex:[displayIntervalBox_ numberOfItems]];
@@ -226,9 +227,9 @@
     [USER_DEFAULT setObject:blogNameField_.stringValue forKey:UD_BLOG_NAME];
     {
         NSString *interval = displayIntervalBox_.stringValue;
-        if ([interval integerValue] < 10) {
-            // 10秒以下の場合は強制的に10
-            interval = @"10";
+        if ([interval integerValue] < 5) {
+            // MARK: 5秒以下の場合は強制的に5
+            interval = @"5";
             displayIntervalBox_.stringValue = interval;
         }
         [USER_DEFAULT setObject:interval forKey:UD_DISPLAY_INTERVAL];

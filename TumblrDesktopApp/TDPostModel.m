@@ -54,19 +54,25 @@
         TumblrDesktopAppDelegate *app = (TumblrDesktopAppDelegate *)[[NSApplication sharedApplication] delegate];
         
         currentBlogName_ = [USER_DEFAULT objectForKey:UD_BLOG_NAME];
-        NSArray *cacheData;
-        if (currentBlogName_) {
-            cacheData = [USER_DEFAULT objectForKey:currentBlogName_];
-        }
-        if (cacheData) {
-            // キャッシュ
-            [app setTitleWithBlogName:currentBlogName_ state:YES];
-            posts_ = cacheData;
-            [self createImageUrlContainer];
+        if (currentBlogName_ && [currentBlogName_ length] != 0) {
+            NSArray *cacheData = [USER_DEFAULT objectForKey:currentBlogName_];
+            
+            if (cacheData) {
+                // キャッシュ
+                [app setTitleWithBlogName:currentBlogName_ state:YES];
+                posts_ = cacheData;
+                [self createImageUrlContainer];
+            }
+            else{
+                [app setTitleWithBlogName:currentBlogName_ state:NO];
+                [self requestPosts];
+            }
         }
         else{
-            [app setTitleWithBlogName:currentBlogName_ state:NO];
-            [self requestPosts];
+            NSError *error = [[NSError alloc] initWithDomain:@"ブログ名が指定されていません"
+                                                        code:-1
+                                                    userInfo:nil];
+            [self showError:error];
         }
 
     }
