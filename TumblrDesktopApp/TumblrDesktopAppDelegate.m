@@ -53,9 +53,15 @@
     [appleEventManager setEventHandler:self andSelector:@selector(handleURLEvent:withReplyEvent:)
                          forEventClass:kInternetEventClass
                             andEventID:kAEGetURL];
-    
-    
 }
+
+
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+//    TDPreferencesWindowController *preferenceController = [TDPreferencesWindowController sharedTDPreferencesWindowController];
+//    [preferenceController close];
+}
+
 
 - (void)handleURLEvent:(NSAppleEventDescriptor*)event withReplyEvent:(NSAppleEventDescriptor*)replyEvent
 {
@@ -68,10 +74,16 @@
 
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
 {
-    NSRect rect = [sender.contentView frame];
-    tdImageView_.frame = rect;
+//    NSRect rect = [sender.contentView frame];
+//    tdImageView_.frame = rect;
     
     return frameSize;
+}
+
+
+- (void)windowDidResize:(NSNotification *)notification
+{
+    tdImageView_.frame = [self.window.contentView frame];
 }
 
 
