@@ -29,6 +29,7 @@
     // Insert code here to initialize your application
     self.window.delegate = self;
     self.window.title = @"Tumblr";
+    [[self.window standardWindowButton:NSWindowCloseButton] setEnabled:NO];
 //    [self.window setStyleMask:NSResizableWindowMask];
     [self.window setBackgroundColor:[NSColor whiteColor]];
 //    [self.window setOpaque:NO];
