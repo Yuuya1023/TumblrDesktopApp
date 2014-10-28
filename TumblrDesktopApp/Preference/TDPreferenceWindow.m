@@ -35,9 +35,8 @@
     self = [super init];
     if (self) {
         //
-//        self.contentView = [[NSView alloc] initWithFrame:NSMakeRect(100, 100, 300, 300)];
         self.title = @"Preferences";
-        [self setFrame:NSMakeRect(0, 100, 220, 220) display:YES];
+        [self setContentSize:NSMakeSize(220, 220)];
         isRemovedCache_ = NO;
         
         // ブログ名
