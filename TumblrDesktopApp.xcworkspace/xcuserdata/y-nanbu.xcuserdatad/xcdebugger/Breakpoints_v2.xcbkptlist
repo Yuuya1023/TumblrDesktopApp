@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TumblrDesktopApp/TDPostModel.m"
-            timestampString = "436157451.737882"
+            timestampString = "436168633.917991"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
             landmarkName = "-createImageUrlContainer"
             landmarkType = "5">
          </BreakpointContent>

@@ -54,7 +54,10 @@
         TumblrDesktopAppDelegate *app = (TumblrDesktopAppDelegate *)[[NSApplication sharedApplication] delegate];
         
         currentBlogName_ = [USER_DEFAULT objectForKey:UD_BLOG_NAME];
-        NSArray *cacheData = [USER_DEFAULT objectForKey:currentBlogName_];
+        NSArray *cacheData;
+        if (currentBlogName_) {
+            cacheData = [USER_DEFAULT objectForKey:currentBlogName_];
+        }
         if (cacheData) {
             // キャッシュ
             [app setTitleWithBlogName:currentBlogName_ state:YES];
