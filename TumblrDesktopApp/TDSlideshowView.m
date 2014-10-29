@@ -15,7 +15,7 @@
 
 
 
-@interface TDSlideshowView (){
+@interface TDSlideshowView () < NSImageViewWebCacheDelegate >{
  
     TDPostModel *postModel_;
     
@@ -39,10 +39,12 @@
         interval_ = [[USER_DEFAULT objectForKey:UD_DISPLAY_INTERVAL] floatValue];
         
         activeImageView_ = [[NSImageView alloc] initWithFrame:frame];
+        activeImageView_.webCacheDelegate = self;
         [activeImageView_ setImageScaling:NSImageScaleProportionallyUpOrDown];
         [self addSubview:activeImageView_];
         
-        [self startSlideshow];
+        NSString *url = [postModel_ getNextImageUrl];
+        [self startSlideshow:url];
     }
     return self;
 }
@@ -50,17 +52,15 @@
 
 #pragma mark -
 
-- (void)startSlideshow
+- (void)startSlideshow:(NSString *)urlString
 {
-    NSString *url = [postModel_ getNextImageUrl];
-    if (url && [url length] != 0) {
-        [self initTimer];
-        [activeImageView_ setImageURL:[NSURL URLWithString:url]];
+    if (urlString && [urlString length] != 0) {
+        [activeImageView_ setImageURL:[NSURL URLWithString:urlString]];
     }
     else{
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            [self startSlideshow];
+            [self startSlideshow:urlString];
         });
     }
 }
@@ -78,9 +78,8 @@
 - (void)changeImage
 {
     NSString *url = [postModel_ getNextImageUrl];
-//    NSLog(@"url -> %@",url);
+//    NSLog(@"\n\n\n\n url -> %@ \n\n\n\n\n",url);
     if (url && [url length] != 0) {
-//        [activeImageView_ setImageURL:[NSURL URLWithString:url]];
         [self replaseImageView:url];
     }
 }
@@ -91,12 +90,12 @@
 - (void)replaseImageView:(NSString *)newUrlString
 {
     NSImageView *imageView = [[NSImageView alloc] initWithFrame:[self bounds]];
-    [imageView setImageURL:[NSURL URLWithString:newUrlString]];
     [imageView setImageScaling:NSImageScaleProportionallyUpOrDown];
     
     [[self animator] replaceSubview:activeImageView_ with:imageView];
     
     activeImageView_ = imageView;
+    [activeImageView_ setImageURL:[NSURL URLWithString:newUrlString]];
 }
 
 
@@ -130,6 +129,21 @@
 
 
 
+#pragma mark -
+
+- (void)imageView:(NSImageView *)imageView downloadImageSuccessed:(NSImage *)image data:(NSData *)data
+{
+    if (!changeImageTimer_) {
+        [self initTimer];
+    }
+}
+
+- (void)imageViewDownloadImageFailed:(NSImageView *)imageView
+{
+    if (!changeImageTimer_) {
+        [self initTimer];
+    }
+}
 
 #pragma mark -
 
@@ -154,6 +168,8 @@
     [super removeFromSuperview];
     [changeImageTimer_ fire];
     [changeImageTimer_ invalidate];
+    activeImageView_.webCacheDelegate = nil;
+    [activeImageView_ cancelWebImageLoad];
     [postModel_ cancelRequest];
 }
 

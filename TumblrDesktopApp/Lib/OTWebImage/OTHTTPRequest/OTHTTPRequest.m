@@ -326,6 +326,7 @@
 - (void)cancel
 {
     [_connection cancel];
+    _delegate = nil;
     _connection = nil;
     _data = nil;
     _response = nil;
@@ -361,6 +362,7 @@
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     _response = response;
+//    NSLog(@"aa %@", [response.URL  absoluteString]);
     if ([self.delegate respondsToSelector:@selector(otHTTPRequest:didReceiveResponse:)])
     {
         [self.delegate otHTTPRequest:self didReceiveResponse:response];
@@ -370,6 +372,7 @@
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     [_data appendData:data];
+//    NSLog(@"aaaa %@",     [connection.originalRequest.URL absoluteString]);
     if ([self.delegate respondsToSelector:@selector(otHTTPRequest:dataUpdated:)])
     {
         [self.delegate otHTTPRequest:self dataUpdated:data];

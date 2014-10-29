@@ -73,6 +73,8 @@ static TDPreLoadRequestManager* sharedTDPreLoadRequestManager = nil;
 
 - (void)addRequest:(NSString *)url
 {
+    if (!url || [url length] == 0) return;
+    
     OTWebImageDownloadRequest *req = [OTWebImageDownloadRequest requestWithURL:[NSURL URLWithString:url]];
     req.delegate = self;
     [requestContainer_ addObject:req];
@@ -85,8 +87,11 @@ static TDPreLoadRequestManager* sharedTDPreLoadRequestManager = nil;
 {
     for (NSUInteger i = 0; i < [requestContainer_ count]; i++) {
         OTWebImageDownloadRequest *req = [requestContainer_ objectAtIndex:i];
-        req.delegate = nil;
-        [req cancel];
+        if (req) {
+            req.delegate = nil;
+            [requestContainer_ removeObject:req];
+            [req cancel];
+        }
     }
 }
 
@@ -98,6 +103,7 @@ static TDPreLoadRequestManager* sharedTDPreLoadRequestManager = nil;
                       isFromCache:(BOOL)isFromCache
 {
     [requestContainer_ removeObject:request];
+//    NSLog(@"%@", requestContainer_);
 }
 
 
@@ -105,6 +111,7 @@ static TDPreLoadRequestManager* sharedTDPreLoadRequestManager = nil;
                   failedWithError:(NSError *)error
 {
     [requestContainer_ removeObject:request];
+//    NSLog(@"%@", requestContainer_);
 }
 
 @end
