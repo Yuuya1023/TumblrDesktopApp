@@ -43,8 +43,7 @@
         [activeImageView_ setImageScaling:NSImageScaleProportionallyUpOrDown];
         [self addSubview:activeImageView_];
         
-        NSString *url = [postModel_ getNextImageUrl];
-        [self startSlideshow:url];
+        [self startSlideshow];
     }
     return self;
 }
@@ -52,15 +51,16 @@
 
 #pragma mark -
 
-- (void)startSlideshow:(NSString *)urlString
+- (void)startSlideshow
 {
+    NSString *urlString = [postModel_ getNextImageUrl];
     if (urlString && [urlString length] != 0) {
         [activeImageView_ setImageURL:[NSURL URLWithString:urlString]];
     }
     else{
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            [self startSlideshow:urlString];
+            [self startSlideshow];
         });
     }
 }
