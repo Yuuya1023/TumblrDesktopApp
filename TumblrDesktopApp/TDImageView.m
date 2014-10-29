@@ -8,6 +8,8 @@
 
 #import "TDImageView.h"
 
+#import <QuartzCore/CAAnimation.h>
+#import <QuartzCore/CoreImage.h>
 #import "TDPostModel.h"
 #import "NSImageView+WebCache.h"
 
@@ -30,6 +32,7 @@
     if (self) {
         // Initialization code here.
         postModel_ = [[TDPostModel alloc] init];
+        [self createAnimate];
         
         interval_ = [[USER_DEFAULT objectForKey:UD_DISPLAY_INTERVAL] floatValue];
         
@@ -38,7 +41,8 @@
             if (url && [url length] != 0) {
                 [self initTimer];
                 [self setImageScaling:NSImageScaleProportionallyUpOrDown];
-                [self setImageURL:[NSURL URLWithString:url]];
+//                [self setImageURL:[NSURL URLWithString:url]];
+                [[self animator] setImageURL:[NSURL URLWithString:url]];
             }
         }
     }
@@ -78,10 +82,49 @@
     NSString *url = [postModel_ getNextImageUrl];
 //    NSLog(@"url -> %@",url);
     if (url) {
+        
+//        [self setAlphaValue:0.0f];
+//        [self show];
         [self setImageURL:[NSURL URLWithString:url]];
+//        [self hide];
+//        [self animate];
+//        [self anima]
     }
 }
 
+- (void)createAnimate
+{
+    NSString *transition = @"fade";
+    CIFilter	*transitionFilter = nil;
+    transitionFilter = [CIFilter filterWithName:transition];
+    [transitionFilter setDefaults];
+    
+    CATransition *newTransition = [CATransition animation];
+    if (transitionFilter)
+	{
+        // we want to build a CIFilter-based CATransition.
+		// When an CATransition's "filter" property is set, the CATransition's "type" and "subtype" properties are ignored,
+		// so we don't need to bother setting them.
+        [newTransition setFilter:transitionFilter];
+    }
+	else
+	{
+        // we want to specify one of Core Animation's built-in transitions.
+        [newTransition setType:transition];
+        [newTransition setSubtype:kCATransitionFromLeft];
+    }
+    
+    [newTransition setDuration:1.0];
+    
+	[self setAnimations:[NSDictionary dictionaryWithObject:newTransition forKey:@"subviews"]];
+    
+}
+
+//- (void)animate
+//{
+//    
+//    
+//}
 
 
 #pragma mark -

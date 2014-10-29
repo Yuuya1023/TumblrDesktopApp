@@ -15,6 +15,7 @@
 		1852B10119F9EF2200336200 /* OTFileCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1852B0FA19F9EF2200336200 /* OTFileCacheManager.m */; };
 		1852B10219F9EF2200336200 /* OTHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1852B0FD19F9EF2200336200 /* OTHTTPRequest.m */; };
 		1852B10319F9EF2200336200 /* OTWebImageDownloadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1852B0FF19F9EF2200336200 /* OTWebImageDownloadRequest.m */; };
+		18994C651A008B0200B7A318 /* TDSlideshowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18994C641A008B0200B7A318 /* TDSlideshowView.m */; };
 		18B570A919F79EF3003E1067 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B570A819F79EF3003E1067 /* Cocoa.framework */; };
 		18B570B319F79EF3003E1067 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18B570B119F79EF3003E1067 /* InfoPlist.strings */; };
 		18B570B519F79EF3003E1067 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B570B419F79EF3003E1067 /* main.m */; };
@@ -59,6 +60,8 @@
 		1852B0FD19F9EF2200336200 /* OTHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTHTTPRequest.m; sourceTree = "<group>"; };
 		1852B0FE19F9EF2200336200 /* OTWebImageDownloadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTWebImageDownloadRequest.h; sourceTree = "<group>"; };
 		1852B0FF19F9EF2200336200 /* OTWebImageDownloadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTWebImageDownloadRequest.m; sourceTree = "<group>"; };
+		18994C631A008B0200B7A318 /* TDSlideshowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDSlideshowView.h; sourceTree = "<group>"; };
+		18994C641A008B0200B7A318 /* TDSlideshowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDSlideshowView.m; sourceTree = "<group>"; };
 		18B570A519F79EF3003E1067 /* TumblrDesktopApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TumblrDesktopApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B570A819F79EF3003E1067 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		18B570AB19F79EF3003E1067 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -201,6 +204,8 @@
 			children = (
 				18B570BA19F79EF3003E1067 /* TumblrDesktopAppDelegate.h */,
 				18B570BB19F79EF3003E1067 /* TumblrDesktopAppDelegate.m */,
+				18994C631A008B0200B7A318 /* TDSlideshowView.h */,
+				18994C641A008B0200B7A318 /* TDSlideshowView.m */,
 				18B570BD19F79EF3003E1067 /* MainMenu.xib */,
 				1852B0F119F9EE1E00336200 /* TDImageView.h */,
 				1852B0F219F9EE1E00336200 /* TDImageView.m */,
@@ -390,6 +395,7 @@
 				1814090419FA3D1100C6C495 /* TDPreferencesWindowController.m in Sources */,
 				1852B10219F9EF2200336200 /* OTHTTPRequest.m in Sources */,
 				1814090719FA3D3A00C6C495 /* TDPreferenceWindow.m in Sources */,
+				18994C651A008B0200B7A318 /* TDSlideshowView.m in Sources */,
 				1852B10019F9EF2200336200 /* NSImageView+WebCache.m in Sources */,
 				1852B10319F9EF2200336200 /* OTWebImageDownloadRequest.m in Sources */,
 			);

@@ -8,6 +8,7 @@
 
 #import "TumblrDesktopAppDelegate.h"
 
+#import "TDSlideshowView.h"
 #import "TDImageView.h"
 #import "TDTumblrManager.h"
 #import "TDPreferencesWindowController.h"
@@ -17,7 +18,8 @@
     
     NSView *testView_;
     
-    TDImageView *tdImageView_;
+    TDSlideshowView *slideshowView_;
+//    TDImageView *tdImageView_;
 }
 @end
 
@@ -88,7 +90,7 @@
 
 - (void)windowDidResize:(NSNotification *)notification
 {
-    tdImageView_.frame = [self.window.contentView frame];
+    slideshowView_.frame = [self.window.contentView frame];
 }
 
 
@@ -106,8 +108,8 @@
         [self.window setLevel:NSNormalWindowLevel];
     }
     
-    if (tdImageView_) {
-        [tdImageView_ removeFromSuperview];
+    if (slideshowView_) {
+        [slideshowView_ removeFromSuperview];
     }
         
     TDTumblrManager *manager = [TDTumblrManager sharedInstance];
@@ -118,10 +120,10 @@
             //            rect.origin.x = rect.origin.y = 0.0f;
             NSLog(@"rect %@",NSStringFromRect(rect));
             NSLog(@"rect %@",NSStringFromRect(self.window.frame));
-            tdImageView_ = [[TDImageView alloc] initWithFrame:rect];
-            [tdImageView_ setWantsLayer:YES];
+            slideshowView_ = [[TDSlideshowView alloc] initWithFrame:rect];
+            [slideshowView_ setWantsLayer:YES];
             
-            [self.window.contentView addSubview:tdImageView_];
+            [self.window.contentView addSubview:slideshowView_];
         }
         else{
             // 失敗
