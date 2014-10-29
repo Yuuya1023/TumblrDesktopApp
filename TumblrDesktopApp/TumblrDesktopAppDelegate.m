@@ -9,7 +9,6 @@
 #import "TumblrDesktopAppDelegate.h"
 
 #import "TDSlideshowView.h"
-#import "TDImageView.h"
 #import "TDTumblrManager.h"
 #import "TDPreferencesWindowController.h"
 
@@ -19,7 +18,6 @@
     NSView *testView_;
     
     TDSlideshowView *slideshowView_;
-//    TDImageView *tdImageView_;
 }
 @end
 

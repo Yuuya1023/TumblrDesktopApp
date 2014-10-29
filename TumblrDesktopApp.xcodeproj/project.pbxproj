@@ -10,7 +10,6 @@
 		1814090419FA3D1100C6C495 /* TDPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1814090319FA3D1100C6C495 /* TDPreferencesWindowController.m */; };
 		1814090719FA3D3A00C6C495 /* TDPreferenceWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1814090619FA3D3A00C6C495 /* TDPreferenceWindow.m */; };
 		1852B0F019F8D39100336200 /* TDPostModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1852B0EF19F8D39100336200 /* TDPostModel.m */; };
-		1852B0F319F9EE1E00336200 /* TDImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1852B0F219F9EE1E00336200 /* TDImageView.m */; };
 		1852B10019F9EF2200336200 /* NSImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 1852B0F719F9EF2200336200 /* NSImageView+WebCache.m */; };
 		1852B10119F9EF2200336200 /* OTFileCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1852B0FA19F9EF2200336200 /* OTFileCacheManager.m */; };
 		1852B10219F9EF2200336200 /* OTHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1852B0FD19F9EF2200336200 /* OTHTTPRequest.m */; };
@@ -50,8 +49,6 @@
 		1814090919FDF20400C6C495 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		1852B0EE19F8D39100336200 /* TDPostModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDPostModel.h; sourceTree = "<group>"; };
 		1852B0EF19F8D39100336200 /* TDPostModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDPostModel.m; sourceTree = "<group>"; };
-		1852B0F119F9EE1E00336200 /* TDImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDImageView.h; sourceTree = "<group>"; };
-		1852B0F219F9EE1E00336200 /* TDImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDImageView.m; sourceTree = "<group>"; };
 		1852B0F619F9EF2200336200 /* NSImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImageView+WebCache.h"; sourceTree = "<group>"; };
 		1852B0F719F9EF2200336200 /* NSImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImageView+WebCache.m"; sourceTree = "<group>"; };
 		1852B0F919F9EF2200336200 /* OTFileCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTFileCacheManager.h; sourceTree = "<group>"; };
@@ -204,11 +201,9 @@
 			children = (
 				18B570BA19F79EF3003E1067 /* TumblrDesktopAppDelegate.h */,
 				18B570BB19F79EF3003E1067 /* TumblrDesktopAppDelegate.m */,
+				18B570BD19F79EF3003E1067 /* MainMenu.xib */,
 				18994C631A008B0200B7A318 /* TDSlideshowView.h */,
 				18994C641A008B0200B7A318 /* TDSlideshowView.m */,
-				18B570BD19F79EF3003E1067 /* MainMenu.xib */,
-				1852B0F119F9EE1E00336200 /* TDImageView.h */,
-				1852B0F219F9EE1E00336200 /* TDImageView.m */,
 				18B570E119F7B94A003E1067 /* TDTumblrManager.h */,
 				18B570E219F7B94A003E1067 /* TDTumblrManager.m */,
 				1852B0EE19F8D39100336200 /* TDPostModel.h */,
@@ -389,7 +384,6 @@
 				18B570E319F7B94A003E1067 /* TDTumblrManager.m in Sources */,
 				18B570B519F79EF3003E1067 /* main.m in Sources */,
 				1852B0F019F8D39100336200 /* TDPostModel.m in Sources */,
-				1852B0F319F9EE1E00336200 /* TDImageView.m in Sources */,
 				18B570BC19F79EF3003E1067 /* TumblrDesktopAppDelegate.m in Sources */,
 				1852B10119F9EF2200336200 /* OTFileCacheManager.m in Sources */,
 				1814090419FA3D1100C6C495 /* TDPreferencesWindowController.m in Sources */,

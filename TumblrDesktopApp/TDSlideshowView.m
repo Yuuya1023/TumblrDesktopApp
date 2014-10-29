@@ -8,6 +8,8 @@
 
 #import "TDSlideshowView.h"
 
+#import <QuartzCore/CAAnimation.h>
+#import <QuartzCore/CoreImage.h>
 #import "TDPostModel.h"
 #import "NSImageView+WebCache.h"
 
@@ -21,7 +23,6 @@
     NSTimer *changeImageTimer_;
     
     NSImageView *activeImageView_;
-//    NSImageView *tempImageView_;
 }
 @end
 
@@ -33,6 +34,7 @@
     if (self) {
         // Initialization code here.
         postModel_ = [[TDPostModel alloc] init];
+        [self createAnimate];
         
         interval_ = [[USER_DEFAULT objectForKey:UD_DISPLAY_INTERVAL] floatValue];
         
@@ -68,9 +70,54 @@
     NSString *url = [postModel_ getNextImageUrl];
 //    NSLog(@"url -> %@",url);
     if (url && [url length] != 0) {
-        [activeImageView_ setImageURL:[NSURL URLWithString:url]];
+//        [activeImageView_ setImageURL:[NSURL URLWithString:url]];
+        [self replaseImageView:url];
     }
 }
+
+
+#pragma mark - Animate
+
+- (void)replaseImageView:(NSString *)newUrlString
+{
+    NSImageView *imageView = [[NSImageView alloc] initWithFrame:[self bounds]];
+    [imageView setImageURL:[NSURL URLWithString:newUrlString]];
+    [imageView setImageScaling:NSImageScaleProportionallyUpOrDown];
+    
+    [[self animator] replaceSubview:activeImageView_ with:imageView];
+    
+    activeImageView_ = imageView;
+}
+
+
+- (void)createAnimate
+{
+    NSString *transition = @"fade";
+    CIFilter	*transitionFilter = nil;
+    transitionFilter = [CIFilter filterWithName:transition];
+    [transitionFilter setDefaults];
+    
+    CATransition *newTransition = [CATransition animation];
+    if (transitionFilter)
+	{
+        // we want to build a CIFilter-based CATransition.
+		// When an CATransition's "filter" property is set, the CATransition's "type" and "subtype" properties are ignored,
+		// so we don't need to bother setting them.
+        [newTransition setFilter:transitionFilter];
+    }
+	else
+	{
+        // we want to specify one of Core Animation's built-in transitions.
+        [newTransition setType:transition];
+        [newTransition setSubtype:kCATransitionFromLeft];
+    }
+    
+    [newTransition setDuration:0.5f];
+    
+	[self setAnimations:[NSDictionary dictionaryWithObject:newTransition forKey:@"subviews"]];
+    
+}
+
 
 
 
@@ -81,6 +128,7 @@
     [super setFrame:frameRect];
     [activeImageView_ setFrame:frameRect];
 }
+
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
