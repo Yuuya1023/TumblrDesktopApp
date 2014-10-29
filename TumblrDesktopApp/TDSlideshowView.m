@@ -39,21 +39,31 @@
         interval_ = [[USER_DEFAULT objectForKey:UD_DISPLAY_INTERVAL] floatValue];
         
         activeImageView_ = [[NSImageView alloc] initWithFrame:frame];
+        [activeImageView_ setImageScaling:NSImageScaleProportionallyUpOrDown];
         [self addSubview:activeImageView_];
-        {
-            NSString *url = [postModel_ getNextImageUrl];
-            if (url && [url length] != 0) {
-                [self initTimer];
-                [activeImageView_ setImageScaling:NSImageScaleProportionallyUpOrDown];
-                [activeImageView_ setImageURL:[NSURL URLWithString:url]];
-            }
-        }
+        
+        [self startSlideshow];
     }
     return self;
 }
 
 
 #pragma mark -
+
+- (void)startSlideshow
+{
+    NSString *url = [postModel_ getNextImageUrl];
+    if (url && [url length] != 0) {
+        [self initTimer];
+        [activeImageView_ setImageURL:[NSURL URLWithString:url]];
+    }
+    else{
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [self startSlideshow];
+        });
+    }
+}
 
 - (void)initTimer
 {
@@ -144,7 +154,7 @@
     [super removeFromSuperview];
     [changeImageTimer_ fire];
     [changeImageTimer_ invalidate];
-    [postModel_ setShouldCancelPostsRequest:YES];
+    [postModel_ cancelRequest];
 }
 
 

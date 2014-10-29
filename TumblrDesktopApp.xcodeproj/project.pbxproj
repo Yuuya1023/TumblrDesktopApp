@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1803E0EF1A00A96C00A4FD50 /* TDPreLoadRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803E0EE1A00A96C00A4FD50 /* TDPreLoadRequestManager.m */; };
 		1814090419FA3D1100C6C495 /* TDPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1814090319FA3D1100C6C495 /* TDPreferencesWindowController.m */; };
 		1814090719FA3D3A00C6C495 /* TDPreferenceWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1814090619FA3D3A00C6C495 /* TDPreferenceWindow.m */; };
 		1852B0F019F8D39100336200 /* TDPostModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1852B0EF19F8D39100336200 /* TDPostModel.m */; };
@@ -42,6 +43,8 @@
 
 /* Begin PBXFileReference section */
 		0EBB49A8990C49F89E474A04 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		1803E0ED1A00A96C00A4FD50 /* TDPreLoadRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDPreLoadRequestManager.h; sourceTree = "<group>"; };
+		1803E0EE1A00A96C00A4FD50 /* TDPreLoadRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDPreLoadRequestManager.m; sourceTree = "<group>"; };
 		1814090219FA3D1100C6C495 /* TDPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDPreferencesWindowController.h; sourceTree = "<group>"; };
 		1814090319FA3D1100C6C495 /* TDPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDPreferencesWindowController.m; sourceTree = "<group>"; };
 		1814090519FA3D3A00C6C495 /* TDPreferenceWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDPreferenceWindow.h; sourceTree = "<group>"; };
@@ -208,6 +211,8 @@
 				18B570E219F7B94A003E1067 /* TDTumblrManager.m */,
 				1852B0EE19F8D39100336200 /* TDPostModel.h */,
 				1852B0EF19F8D39100336200 /* TDPostModel.m */,
+				1803E0ED1A00A96C00A4FD50 /* TDPreLoadRequestManager.h */,
+				1803E0EE1A00A96C00A4FD50 /* TDPreLoadRequestManager.m */,
 				18B570C019F79EF3003E1067 /* Images.xcassets */,
 				1814090919FDF20400C6C495 /* config.h */,
 				1814090119FA3D1000C6C495 /* Preference */,
@@ -384,6 +389,7 @@
 				18B570E319F7B94A003E1067 /* TDTumblrManager.m in Sources */,
 				18B570B519F79EF3003E1067 /* main.m in Sources */,
 				1852B0F019F8D39100336200 /* TDPostModel.m in Sources */,
+				1803E0EF1A00A96C00A4FD50 /* TDPreLoadRequestManager.m in Sources */,
 				18B570BC19F79EF3003E1067 /* TumblrDesktopAppDelegate.m in Sources */,
 				1852B10119F9EF2200336200 /* OTFileCacheManager.m in Sources */,
 				1814090419FA3D1100C6C495 /* TDPreferencesWindowController.m in Sources */,

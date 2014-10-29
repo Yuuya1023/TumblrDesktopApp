@@ -13,8 +13,9 @@
 - (void)requestPosts;
 - (NSString *)getNextImageUrl;
 
+- (void)cancelRequest;
 
-@property (nonatomic) BOOL shouldCancelPostsRequest;
+//@property (nonatomic) BOOL shouldCancelPostsRequest;
 @property (nonatomic, readonly) NSArray *posts;
 @property (nonatomic, readonly) NSDictionary *currentPostDetail;
 @end

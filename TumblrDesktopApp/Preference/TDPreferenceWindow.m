@@ -227,6 +227,7 @@
         [USER_DEFAULT removeObjectForKey:UD_CACHED_BLOG_NAME];
         [USER_DEFAULT synchronize];
         
+        // MARK: 画像キャッシュも消すかどうか
 //        [[[OTFileCacheManager alloc] init] clearAllCache];
         isRemovedCache_ = YES;
         

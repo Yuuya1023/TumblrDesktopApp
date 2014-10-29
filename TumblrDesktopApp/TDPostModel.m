@@ -10,8 +10,8 @@
 
 #import "TDTumblrManager.h"
 #import "NSImageView+WebCache.h"
-#import "OTWebImageDownloadRequest.h"
 #import "TumblrDesktopAppDelegate.h"
+#import "TDPreLoadRequestManager.h"
 
 
 
@@ -21,12 +21,12 @@
 #define KEY_IMAGE_URL @"image_url"
 #define KEY_POST_URL  @"post_url"
 
-@interface TDPostModel () <OTWebImageDownloadRequestDelegate>{
+@interface TDPostModel (){
  
     /// 先読みする投稿を貯めておく用
     NSMutableArray *postDetailContainer_;
     /// 先読みリクエストを貯めておく用
-    NSMutableArray *requestContainer_;
+//    NSMutableArray *requestContainer_;
     /// ランダム表示で被りが出ないように貯めておく用
     NSMutableArray *restPostContainerForRandom_;
     
@@ -36,12 +36,14 @@
     NSUInteger currentPostIndex_;
     BOOL isRandomIndicate_;
     BOOL isFinishedLoad_;
+    
+    BOOL shouldCancelPostsRequest_;
 }
 @end
 
 @implementation TDPostModel
 @synthesize posts = posts_;
-@synthesize shouldCancelPostsRequest = shouldCancelPostsRequest_;
+//@synthesize shouldCancelPostsRequest = shouldCancelPostsRequest_;
 @synthesize currentPostDetail = currentPostDetail_;
 
 
@@ -59,7 +61,7 @@
         
         posts_ = [NSMutableArray array];
         postDetailContainer_ = [NSMutableArray array];
-        requestContainer_ = [NSMutableArray array];
+//        requestContainer_ = [NSMutableArray array];
         restPostContainerForRandom_ = [NSMutableArray array];
         
         
@@ -188,6 +190,12 @@
                         }];
 }
 
+- (void)cancelRequest
+{
+    shouldCancelPostsRequest_ = YES;
+    [[TDPreLoadRequestManager sharedInstance] cancelExistRequest];
+}
+
 
 - (void)showError:(NSError *)error
 {
@@ -214,11 +222,7 @@
 
 - (void)preLoadImage:(NSString *)urlString
 {
-    OTWebImageDownloadRequest *req = [OTWebImageDownloadRequest requestWithURL:[NSURL URLWithString:urlString]];
-    req.delegate = self;
-    [requestContainer_ addObject:req];
-//    NSLog(@"%@",requestContainer_);
-    [req start];
+    [[TDPreLoadRequestManager sharedInstance] addRequest:urlString];
 }
 
 
@@ -326,22 +330,5 @@
     return dic;
 }
 
-
-#pragma mark - OTWebImageDownloadRequest Delegate
-
-- (void)otWebImageDownloadRequest:(OTWebImageDownloadRequest *)request
-        downloadSuccessedWithData:(NSData *)imageData
-                      isFromCache:(BOOL)isFromCache
-{
-    [requestContainer_ removeObject:request];
-//    NSLog(@"%@",requestContainer_);
-}
-
-
-- (void)otWebImageDownloadRequest:(OTWebImageDownloadRequest *)request
-                  failedWithError:(NSError *)error
-{
-    [requestContainer_ removeObject:request];
-}
 
 @end
