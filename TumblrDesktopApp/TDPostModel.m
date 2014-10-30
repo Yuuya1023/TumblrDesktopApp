@@ -12,6 +12,7 @@
 #import "NSImageView+WebCache.h"
 #import "TumblrDesktopAppDelegate.h"
 #import "TDPreLoadRequestManager.h"
+#import "TDHistoryWindowController.h"
 
 
 
@@ -25,8 +26,6 @@
  
     /// 先読みする投稿を貯めておく用
     NSMutableArray *postDetailContainer_;
-    /// 先読みリクエストを貯めておく用
-//    NSMutableArray *requestContainer_;
     /// ランダム表示で被りが出ないように貯めておく用
     NSMutableArray *restPostContainerForRandom_;
     
@@ -283,6 +282,10 @@
             [self preLoadImage:preLoadUrl];
         }
         
+        // 履歴に追加
+        TDHistoryWindowController *controller = [TDHistoryWindowController sharedTDHistoryWindowControllerController];
+        [controller pushHistory:currentPostDetail_];
+        // 差し替え
         currentPostDetail_ = [NSDictionary dictionaryWithDictionary:dic];
     }
     return url;

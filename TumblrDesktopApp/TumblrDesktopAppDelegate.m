@@ -11,6 +11,8 @@
 #import "TDSlideshowView.h"
 #import "TDTumblrManager.h"
 #import "TDPreferencesWindowController.h"
+#import "TDHistoryWindowController.h"
+
 
 
 @interface TumblrDesktopAppDelegate(){
@@ -167,4 +169,14 @@
     TDPreferencesWindowController *preferenceController = [TDPreferencesWindowController sharedTDPreferencesWindowController];
     [preferenceController showWindow:sender];
 }
+
+
+- (void)showHistory:(id)sender
+{
+    
+    TDHistoryWindowController *controller = [TDHistoryWindowController sharedTDHistoryWindowControllerController];
+    [controller showWindow:sender];
+}
+
+
 @end

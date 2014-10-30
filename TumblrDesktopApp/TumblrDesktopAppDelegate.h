@@ -12,6 +12,7 @@
 
 - (void)initImageView;
 - (IBAction)showPreferences:(id)sender;
+- (IBAction)showHistory:(id)sender;
 - (void)setTitleWithBlogName:(NSString *)name state:(BOOL)isLoadingFinished;
 
 @property (assign) IBOutlet NSWindow *window;
