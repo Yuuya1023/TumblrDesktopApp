@@ -16,5 +16,6 @@
 - (void)setTitleWithBlogName:(NSString *)name state:(BOOL)isLoadingFinished;
 
 @property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet NSMenuItem *showHistoryItem;
 
 @end

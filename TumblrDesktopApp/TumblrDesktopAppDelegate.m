@@ -48,6 +48,9 @@
                      selector:NSSelectorFromString(@"initImageView")
                          name:NOTIF_UPDATE_PREFERENCES
                        object:nil];
+    
+    [self.showHistoryItem setKeyEquivalentModifierMask:NSCommandKeyMask];
+    [self.showHistoryItem setKeyEquivalent:@"."];
 
     [self initImageView];
     
@@ -175,7 +178,12 @@
 {
     
     TDHistoryWindowController *controller = [TDHistoryWindowController sharedTDHistoryWindowControllerController];
-    [controller showWindow:sender];
+    if ([controller.window isVisible]) {
+        [controller close];
+    }
+    else{
+        [controller showWindow:sender];
+    }
 }
 
 

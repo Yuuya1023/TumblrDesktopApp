@@ -14,6 +14,7 @@
         <customObject id="-3" userLabel="Application"/>
         <customObject id="Voe-Tx-rLC" customClass="TumblrDesktopAppDelegate">
             <connections>
+                <outlet property="showHistoryItem" destination="snW-S8-Cw5" id="geA-D3-1f2"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
