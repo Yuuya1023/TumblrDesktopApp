@@ -36,27 +36,27 @@
     if (self) {
         //
         self.title = @"Preferences";
-        [self setContentSize:NSMakeSize(220, 220)];
+        [self setContentSize:NSMakeSize(300, 250)];
         isRemovedCache_ = NO;
         
         // ブログ名
         {
-            NSTextField *text = [[NSTextField alloc] initWithFrame:NSMakeRect(20.0f, self.frame.size.height - 52.0f, 100.0f, 20.0f)];
-            text.stringValue = @"ブログ名：";
+            NSTextField *text = [[NSTextField alloc] initWithFrame:NSMakeRect(20.0f, self.frame.size.height - 52.0f, 300.0f, 20.0f)];
+            text.stringValue = @"ブログ名(カンマ区切りで複数ブログ指定可)：";
             [text setBezeled:NO];
             [text setDrawsBackground:NO];
             [text setEditable:NO];
             [text setSelectable:NO];
             [self.contentView addSubview:text];
 
-            blogNameField_ = [[NSTextField alloc] initWithFrame:NSMakeRect(100.0f, self.frame.size.height - 50.0f, 100.0f, 20.0f)];
+            blogNameField_ = [[NSTextField alloc] initWithFrame:NSMakeRect(30.0f, self.frame.size.height - 78.0f, 250.0f, 20.0f)];
             blogNameField_.delegate = self;
             [self.contentView addSubview:blogNameField_];
         }
         
         // 表示切り替え間隔
         {
-            NSTextField *text = [[NSTextField alloc] initWithFrame:NSMakeRect(20.0f, self.frame.size.height - 82.0f, 130.0f, 20.0f)];
+            NSTextField *text = [[NSTextField alloc] initWithFrame:NSMakeRect(20.0f, self.frame.size.height - 112.0f, 130.0f, 20.0f)];
             text.stringValue = @"表示切り替え間隔(s)：";
             [text setBezeled:NO];
             [text setDrawsBackground:NO];
@@ -64,7 +64,7 @@
             [text setSelectable:NO];
             [self.contentView addSubview:text];
 
-            displayIntervalBox_ = [[NSComboBox alloc] initWithFrame:NSMakeRect(153.0f, self.frame.size.height - 83.0f, 50.0f, 25.0f)];
+            displayIntervalBox_ = [[NSComboBox alloc] initWithFrame:NSMakeRect(233.0f, self.frame.size.height - 113.0f, 50.0f, 25.0f)];
             displayIntervalBox_.delegate = self;
 //            displayIntervalBox_.completes = YES;
             [displayIntervalBox_ insertItemWithObjectValue:@"5" atIndex:[displayIntervalBox_ numberOfItems]];
@@ -80,7 +80,7 @@
         
         // ランダム表示
         {
-            NSTextField *text = [[NSTextField alloc] initWithFrame:NSMakeRect(20.0f, self.frame.size.height - 112.0f, 130.0f, 20.0f)];
+            NSTextField *text = [[NSTextField alloc] initWithFrame:NSMakeRect(20.0f, self.frame.size.height - 142.0f, 130.0f, 20.0f)];
             text.stringValue = @"ランダム表示：";
             [text setBezeled:NO];
             [text setDrawsBackground:NO];
@@ -88,7 +88,7 @@
             [text setSelectable:NO];
             [self.contentView addSubview:text];
             
-            isRandomIndicateBox_ = [[NSButton alloc] initWithFrame:NSMakeRect(183.0f, self.frame.size.height - 110.0f, 25.0f, 20.0f)];
+            isRandomIndicateBox_ = [[NSButton alloc] initWithFrame:NSMakeRect(263.0f, self.frame.size.height - 140.0f, 25.0f, 20.0f)];
             [isRandomIndicateBox_ setButtonType:NSSwitchButton];
             isRandomIndicateBox_.title = @"";
             isRandomIndicateBox_.state = 0;
@@ -98,7 +98,7 @@
         
         // 優先表示設定
         {
-            NSTextField *text = [[NSTextField alloc] initWithFrame:NSMakeRect(20.0f, self.frame.size.height - 142.0f, 130.0f, 20.0f)];
+            NSTextField *text = [[NSTextField alloc] initWithFrame:NSMakeRect(20.0f, self.frame.size.height - 172.0f, 130.0f, 20.0f)];
             text.stringValue = @"常に最前面に配置：";
             [text setBezeled:NO];
             [text setDrawsBackground:NO];
@@ -106,7 +106,7 @@
             [text setSelectable:NO];
             [self.contentView addSubview:text];
 
-            isAlwaysCheckBox_ = [[NSButton alloc] initWithFrame:NSMakeRect(183.0f, self.frame.size.height - 140.0f, 25.0f, 20.0f)];
+            isAlwaysCheckBox_ = [[NSButton alloc] initWithFrame:NSMakeRect(263.0f, self.frame.size.height - 170.0f, 25.0f, 20.0f)];
             [isAlwaysCheckBox_ setButtonType:NSSwitchButton];
             isAlwaysCheckBox_.title = @"";
             isAlwaysCheckBox_.state = 0;
@@ -116,7 +116,7 @@
         
         // キャッシュ削除
         {
-            NSTextField *text = [[NSTextField alloc] initWithFrame:NSMakeRect(20.0f, self.frame.size.height - 172.0f, 130.0f, 20.0f)];
+            NSTextField *text = [[NSTextField alloc] initWithFrame:NSMakeRect(20.0f, self.frame.size.height - 202.0f, 130.0f, 20.0f)];
             text.stringValue = @"キャッシュ：";
             [text setBezeled:NO];
             [text setDrawsBackground:NO];
@@ -124,7 +124,7 @@
             [text setSelectable:NO];
             [self.contentView addSubview:text];
 
-            NSButton *deleteButton = [[NSButton alloc] initWithFrame:NSMakeRect(150.0f, self.frame.size.height - 175.0f, 55.0f, 25.0f)];
+            NSButton *deleteButton = [[NSButton alloc] initWithFrame:NSMakeRect(230.0f, self.frame.size.height - 205.0f, 55.0f, 25.0f)];
             deleteButton.bezelStyle = NSRoundedBezelStyle;
             deleteButton.title = @"削除";
             [deleteButton setTarget:self];
@@ -134,14 +134,14 @@
         
         // OK キャンセルボタン
         {
-            NSButton *cancelButton = [[NSButton alloc] initWithFrame:NSMakeRect(60.0f, self.frame.size.height - 210.0f, 90.0f, 25.0f)];
+            NSButton *cancelButton = [[NSButton alloc] initWithFrame:NSMakeRect(140.0f, self.frame.size.height - 250.0f, 90.0f, 25.0f)];
             cancelButton.bezelStyle = NSRoundedBezelStyle;
             cancelButton.title = @"キャンセル";
             [cancelButton setTarget:self];
             [cancelButton setAction:NSSelectorFromString(@"cancel:")];
             [self.contentView addSubview:cancelButton];
             
-            NSButton *okButton = [[NSButton alloc] initWithFrame:NSMakeRect(150.0f, self.frame.size.height - 210.0f, 55.0f, 25.0f)];
+            NSButton *okButton = [[NSButton alloc] initWithFrame:NSMakeRect(230.0f, self.frame.size.height - 250.0f, 55.0f, 25.0f)];
             okButton.bezelStyle = NSRoundedBezelStyle;
             okButton.title = @"OK";
             [okButton setKeyEquivalent:@"\r"];
