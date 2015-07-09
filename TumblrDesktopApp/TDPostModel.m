@@ -29,7 +29,10 @@
     /// ランダム表示で被りが出ないように貯めておく用
     NSMutableArray *restPostContainerForRandom_;
     
+    NSArray *blogNameList_;
     NSString *currentBlogName_;
+    NSUInteger currentBlogIndex_;
+    
     NSUInteger receivePostsCount_;
     NSUInteger retryCount_;
     NSUInteger currentPostIndex_;
@@ -66,13 +69,19 @@
         
         TumblrDesktopAppDelegate *app = (TumblrDesktopAppDelegate *)[[NSApplication sharedApplication] delegate];
         
-        currentBlogName_ = [USER_DEFAULT objectForKey:UD_BLOG_NAME];
-        if (currentBlogName_ && [currentBlogName_ length] != 0) {
-            NSArray *cacheData = [USER_DEFAULT objectForKey:currentBlogName_];
+        // カンマ区切りでブログ名を抽出
+        currentBlogIndex_ = 0;
+        NSString *inputBlogName = [USER_DEFAULT objectForKey:UD_BLOG_NAME];
+        blogNameList_ = [inputBlogName componentsSeparatedByString:@","];
+        blogNameList_ = [[NSOrderedSet orderedSetWithArray:blogNameList_] array];
+//        currentBlogName_ = [USER_DEFAULT objectForKey:UD_BLOG_NAME];
+        currentBlogName_ = [blogNameList_ objectAtIndex:currentBlogIndex_];
+        if (inputBlogName && [inputBlogName length] != 0) {
+            NSArray *cacheData = [USER_DEFAULT objectForKey:inputBlogName];
             
             if (cacheData) {
                 // キャッシュ
-                [app setTitleWithBlogName:currentBlogName_ state:YES];
+                [app setTitleWithBlogName:inputBlogName state:YES];
                 posts_ = cacheData;
                 
                 // ランダム表示用
@@ -84,7 +93,7 @@
                 [self createImageUrlContainer];
             }
             else{
-                [app setTitleWithBlogName:currentBlogName_ state:NO];
+                [app setTitleWithBlogName:inputBlogName state:NO];
                 [self requestPosts];
             }
         }
@@ -146,33 +155,46 @@
                                     [self addRequestposts];
                                 }
                                 else{
-                                    // 全て読み込み完了
-                                    NSLog(@"%@",blogInfo);
-                                    NSLog(@"%lu posts finished.",(unsigned long)receivePostsCount_);
-                                    NSLog(@"%lu images finished.",(unsigned long)[posts_ count]);
-                                    NSString *blogName = [blogInfo objectForKey:@"name"];
-                                    // ブログ名をキーにポスト一覧を保存
-                                    [USER_DEFAULT setObject:posts_ forKey:blogName];
-                                    // キャッシュされたブログ名をリストに保存
-                                    NSArray *temp = [USER_DEFAULT objectForKey:UD_CACHED_BLOG_NAME];
-                                    if (!temp) {
-                                        temp = [NSArray array];
+                                    if ([blogNameList_ count] > currentBlogIndex_ + 1) {
+                                        // 複数ブログの読み込み
+                                        receivePostsCount_ = 0;
+                                        retryCount_ = 0;
+                                        currentPostIndex_ = 0;
+                                        
+                                        currentBlogIndex_++;
+                                        currentBlogName_ = [blogNameList_ objectAtIndex:currentBlogIndex_];
+                                        [self requestPosts];
                                     }
-                                    NSMutableArray *cachedList = [temp mutableCopy];
-                                    [cachedList addObject:blogName];
-                                    [USER_DEFAULT setObject:cachedList forKey:UD_CACHED_BLOG_NAME];
+                                    else {
+                                        // 全て読み込み完了
+                                        NSLog(@"%@",blogInfo);
+                                        NSLog(@"%lu posts finished.",(unsigned long)receivePostsCount_);
+                                        NSLog(@"%lu images finished.",(unsigned long)[posts_ count]);
+//                                        NSString *blogName = [blogInfo objectForKey:@"name"];
+                                        NSString *inputBlogName = [USER_DEFAULT objectForKey:UD_BLOG_NAME];
+                                        // ブログ名をキーにポスト一覧を保存
+                                        [USER_DEFAULT setObject:posts_ forKey:inputBlogName];
+                                        // キャッシュされたブログ名をリストに保存
+                                        NSArray *temp = [USER_DEFAULT objectForKey:UD_CACHED_BLOG_NAME];
+                                        if (!temp) {
+                                            temp = [NSArray array];
+                                        }
+                                        NSMutableArray *cachedList = [temp mutableCopy];
+                                        [cachedList addObject:inputBlogName];
+                                        [USER_DEFAULT setObject:cachedList forKey:UD_CACHED_BLOG_NAME];
+                                        
+                                        [USER_DEFAULT synchronize];
+                                        
+                                        // ランダム表示用
+                                        if (isRandomIndicate_) {
+                                            restPostContainerForRandom_ = [NSMutableArray arrayWithArray:posts_];
+                                        }
                                     
-                                    [USER_DEFAULT synchronize];
-                                    
-                                    // ランダム表示用
-                                    if (isRandomIndicate_) {
-                                        restPostContainerForRandom_ = [NSMutableArray arrayWithArray:posts_];
+                                        // 読み込み完了したのでタイトルを変える
+                                        isFinishedLoad_ = YES;
+                                        TumblrDesktopAppDelegate *app = (TumblrDesktopAppDelegate *)[[NSApplication sharedApplication] delegate];
+                                        [app setTitleWithBlogName:inputBlogName state:YES];
                                     }
-                                    isFinishedLoad_ = YES;
-                                    
-                                    // 読み込み完了したのでタイトルを変える
-                                    TumblrDesktopAppDelegate *app = (TumblrDesktopAppDelegate *)[[NSApplication sharedApplication] delegate];
-                                    [app setTitleWithBlogName:currentBlogName_ state:YES];
                                 }
                                 
                             }
