@@ -22,7 +22,11 @@
     float interval_;
     NSTimer *changeImageTimer_;
     
+//    NSView *parentView_;
     NSImageView *activeImageView_;
+    
+//    NSButton *prevButton_;
+//    NSButton *nextButton_;
 }
 @end
 
@@ -33,15 +37,41 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
+//        parentView_ = [[NSView alloc] initWithFrame:frame];
+//        [self addSubview:parentView_];
+        [self setWantsLayer:YES];
+        
         postModel_ = [[TDPostModel alloc] init];
         [self createAnimate];
         
         interval_ = [[USER_DEFAULT objectForKey:UD_DISPLAY_INTERVAL] floatValue];
         
+        
         activeImageView_ = [[NSImageView alloc] initWithFrame:frame];
         activeImageView_.webCacheDelegate = self;
         [activeImageView_ setImageScaling:NSImageScaleProportionallyUpOrDown];
+//        [parentView_ addSubview:activeImageView_];
         [self addSubview:activeImageView_];
+        
+        {
+//            float buttonSize = 30.0f;
+//            nextButton_ = [[NSButton alloc] initWithFrame:CGRectMake(frame.size.width - 40, 10, buttonSize, buttonSize)];
+//            [nextButton_ setButtonType:NSRadioButton];
+//            {
+//                NSImage *image = [NSImage imageNamed:@"arrow.png"];
+//                [image setSize:CGSizeMake(buttonSize, buttonSize)];
+//                [nextButton_ setImage:image];
+//            }
+//            {
+//                NSImage *image = [NSImage imageNamed:@"arrow.png"];
+//                [image setSize:CGSizeMake(buttonSize, buttonSize)];
+//                [nextButton_ setAlternateImage:image];
+//            }
+//            [nextButton_ setImagePosition:NSImageOnly];
+//            [nextButton_ setBordered:NO];
+//            
+//            [self addSubview:nextButton_];
+        }
         
         [self startSlideshow];
     }
@@ -79,9 +109,24 @@
 {
     NSString *url = [postModel_ getNextImageUrl];
 //    NSLog(@"\n\n\n\n url -> %@ \n\n\n\n\n",url);
+    // gifの場合はアニメーションを有効に
+    if ([url rangeOfString:@".gif"].location != NSNotFound) {
+        [self setWantsLayer:NO];
+    }
+    else {
+        [self setWantsLayer:YES];
+    }
+    
     if (url && [url length] != 0) {
         [self replaseImageView:url];
     }
+}
+
+
+- (void)setWantsLayer:(BOOL)flag
+{
+    [super setWantsLayer:flag];
+//    [parentView_ setWantsLayer:flag];
 }
 
 
@@ -92,6 +137,7 @@
     NSImageView *imageView = [[NSImageView alloc] initWithFrame:[self bounds]];
     [imageView setImageScaling:NSImageScaleProportionallyUpOrDown];
     
+//    [[parentView_ animator] replaceSubview:activeImageView_ with:imageView];
     [[self animator] replaceSubview:activeImageView_ with:imageView];
     
     activeImageView_ = imageView;
@@ -150,7 +196,10 @@
 - (void)setFrame:(NSRect)frameRect
 {
     [super setFrame:frameRect];
+//    [parentView_ setFrame:frameRect];
     [activeImageView_ setFrame:frameRect];
+    
+//    [nextButton_ setFrame:CGRectMake(frameRect.size.width - 40, 10, nextButton_.frame.size.width, nextButton_.frame.size.height)];
 }
 
 
