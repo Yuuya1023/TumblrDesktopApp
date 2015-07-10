@@ -17,8 +17,6 @@
 
 @interface TumblrDesktopAppDelegate(){
     
-    NSView *testView_;
-    
     TDSlideshowView *slideshowView_;
 }
 @end
@@ -34,15 +32,15 @@
                                      UD_IS_RANDOM_INDICATE: @"1"}];
     
     
-    self.window.delegate = self;
-    self.window.title = @"Tumblr";
-    [[self.window standardWindowButton:NSWindowCloseButton] setEnabled:NO];
-//    [self.window setStyleMask:NSResizableWindowMask];
-    [self.window setBackgroundColor:[NSColor whiteColor]];
-//    [self.window setOpaque:NO];
+    self.panelWindow.delegate = self;
+    self.panelWindow.title = @"Tumblr";
+    [[self.panelWindow standardWindowButton:NSWindowCloseButton] setEnabled:NO];
+//    [self.panelWindow setStyleMask:NSResizableWindowMask];
+    [self.panelWindow setBackgroundColor:[NSColor whiteColor]];
+//    [self.panelWindow setOpaque:NO];
     
-//    [self.window setMovableByWindowBackground:YES];
-//    [self.window setIgnoresMouseEvents:NO];
+//    [self.panelWindow setMovableByWindowBackground:YES];
+//    [self.panelWindow setIgnoresMouseEvents:NO];
     
     [NOTIF_CENTER addObserver:self
                      selector:NSSelectorFromString(@"initImageView")
@@ -93,7 +91,7 @@
 
 - (void)windowDidResize:(NSNotification *)notification
 {
-    slideshowView_.frame = [self.window.contentView frame];
+    slideshowView_.frame = [self.panelWindow.contentView frame];
 }
 
 
@@ -104,11 +102,11 @@
 {
     if ([USER_DEFAULT integerForKey:UD_IS_ALWAYS_TOP] == 1) {
         // 常に最前面に置く NSFloatingWindowLevel
-        [self.window setLevel:NSFloatingWindowLevel];
+        [self.panelWindow setLevel:NSFloatingWindowLevel];
     }
     else{
         // 普通 NSNormalWindowLevel
-        [self.window setLevel:NSNormalWindowLevel];
+        [self.panelWindow setLevel:NSNormalWindowLevel];
     }
     
     if (slideshowView_) {
@@ -119,14 +117,15 @@
     [manager authenticate:^(bool succeeded) {
         if (succeeded) {
             // 成功
-            NSRect rect = [self.window.contentView frame];
+            NSRect rect = [self.panelWindow.contentView frame];
             //            rect.origin.x = rect.origin.y = 0.0f;
             NSLog(@"rect %@",NSStringFromRect(rect));
-            NSLog(@"rect %@",NSStringFromRect(self.window.frame));
+            NSLog(@"rect %@",NSStringFromRect(self.panelWindow.frame));
             slideshowView_ = [[TDSlideshowView alloc] initWithFrame:rect];
             [slideshowView_ setWantsLayer:YES];
             
-            [self.window.contentView addSubview:slideshowView_];
+            [self.panelWindow.contentView addSubview:slideshowView_];
+            
         }
         else{
             // 失敗
@@ -136,7 +135,7 @@
                                                otherButton:nil
                                  informativeTextWithFormat:@"既にログインしている可能性があるためブラウザからTumbrを開いて一度ログアウトしてからお試しください。"];
             
-            [alert beginSheetModalForWindow:self.window
+            [alert beginSheetModalForWindow:self.panelWindow
                                modalDelegate:self
                               didEndSelector:NSSelectorFromString(@"alertDidEnd:returnCode:contextInfo:")
                                  contextInfo:nil];
@@ -148,10 +147,10 @@
 - (void)setTitleWithBlogName:(NSString *)name state:(BOOL)isLoadingFinished
 {
     if (isLoadingFinished) {
-        self.window.title = [NSString stringWithFormat:@"✓ %@",name];
+        self.panelWindow.title = [NSString stringWithFormat:@"✓ %@",name];
     }
     else{
-        self.window.title = [NSString stringWithFormat:@"... %@",name];
+        self.panelWindow.title = [NSString stringWithFormat:@"... %@",name];
     }
 }
 
